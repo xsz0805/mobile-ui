@@ -1,16 +1,26 @@
 <template>
       
 
-  <van-button round type="info" class="mybtn"><slot></slot></van-button>
+  <van-button round type="info" class="mybtn" @click="mybtnclick"><slot></slot></van-button>
 </template>
            
 <script>
 export default {
+  name:'mybutton',
   props: {
     count: {
       default: 666,
     },
+    info:{
+      type:[Number,String,Boolean],
+      default:0
+    }
   },
+  methods:{
+    mybtnclick () {
+      this.$emit('click',this.info)
+    }
+  }
 };
 </script>
 <style scoped lang='less'>

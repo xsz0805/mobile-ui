@@ -45,6 +45,11 @@
     <!-- 热搜样式     Attr  hotStyle  type  boolean  default  false-->
     <mysearch hotStyle='true'> </mysearch>
     <!-- 搜索框 --> 
+
+    <!-- 步骤条 -->
+      <mystep ></mystep>
+
+    <!-- 步骤条 -->
   </div>
 </template>           
            
@@ -53,7 +58,7 @@ export default {
   watch: {
     value(val) {
       console.log(val);
-    },   
+    },
   },
   data() {
     return {

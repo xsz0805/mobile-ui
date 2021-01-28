@@ -64,5 +64,12 @@ input      	输入框内容变化时触发   回调参数   value  type:String  
 ```
 onsearch    确定搜索时触发         回调参数   value   type:String (当前输入的值)   
 ```
+# 步骤条
 
-
+```html
+<mystep></mystep> 
+```
+## props
+```
+active        当前步骤        default  0
+```
