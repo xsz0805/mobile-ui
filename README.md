@@ -1,4 +1,4 @@
-# mobile
+# sh_mobile_ui
 
 # 基于vant-ui搜索组件封装的简单组件
 ##  版本更新至  0.2.0
