@@ -3,10 +3,10 @@
 # 基于vant-ui搜索组件封装的简单组件
 ##  版本更新至  0.2.0
 ## 安装
-```
+```js
 npm  i  sh_mobile    
 ```
-```
+```js
 main.js  导入
 
 import  sh_mobile from 'sh_mobile'
