@@ -13,6 +13,7 @@
            
 <script>
 export default {
+  name:'mybadge',
   watch: {
     count() {
       if (!this.count) {

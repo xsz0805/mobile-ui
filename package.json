@@ -1,13 +1,14 @@
 {
-  "name": "shxsz1_mobile",
-  "version": "0.1.0",
+  "name": "sh_mobile",
+  "version": "0.2.0",
   "private": false,
-  "main": "lib/vue-img-container.umd.min",
+  "main": "lib/sh_mobile.umd.min",
+  "style": "lib/sh_mobile.css",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "lib": "vue-cli-service build --target lib --name vue-img-container --dest lib packages/index.js" 
+    "lib": "vue-cli-service build --target lib --name sh_mobile --dest lib packages/index.js" 
     
   },
   "dependencies": {
@@ -39,11 +40,7 @@
     "px2rem-loader": "^0.1.9",
     "vue-template-compiler": "^2.6.11"
   },
-  "description": "# 基于vant-ui搜索组件封装的简单组件",
+  "description": " # sh_mobile"
 
-  "keywords": [
-    "xszxsz"
-  ],
-  "author": "xxxxssss",
-  "license": "ISC"
+
 }

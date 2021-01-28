@@ -2,6 +2,19 @@
 
 # 基于vant-ui搜索组件封装的简单组件
 
+## 安装
+```
+npm  i  sh_mobile    
+```
+```
+main.js  导入
+
+import  sh_mobile from 'sh_mobile'
+import  Vant from 'vant'
+import 'vant/lib/index.css'
+Vue.use(Vant);
+Vue.use(sh_mobile); 
+```
 # mybadge   徽标
 
 ```html
