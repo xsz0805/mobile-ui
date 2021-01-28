@@ -3,6 +3,9 @@
 # 基于vant-ui搜索组件封装的简单组件
 ##  版本更新至  0.2.0
 ## 安装
+```text
+已经集成Vant ui@2.12.6  无需重复install vant 
+```
 ```js
 npm  i  sh_mobile    
 ```
@@ -26,12 +29,12 @@ Vue.use(sh_mobile);
   </mybadge>
 ```
 ## Attributes
-```
+```js
 count    数字内容        type: Number   String
 ```
 
 ## slots
-```
+```js
 contentImg    自定义徽标内容 
 ```
 
@@ -44,24 +47,24 @@ contentImg    自定义徽标内容
 ```
  
 ## Props
-```
+```js
 v-model  当前输入的值      type:String  
 
 ```
 
 ## Attributes
-```
+```js
 history    搜索历史列表      type:Array
 ```
-```
+```js
 hotStyle   是否显示热搜样式   type:boolean   Default  false
 ```
 
 ## Events
-``` 
+```js 
 input      	输入框内容变化时触发   回调参数   value  type:String  (当前输入框的值)
 ```
-```
+```js
 onsearch    确定搜索时触发         回调参数   value   type:String (当前输入的值)   
 ```
 # 步骤条
@@ -70,6 +73,27 @@ onsearch    确定搜索时触发         回调参数   value   type:String (�
 <mystep></mystep> 
 ```
 ## props
+
+```js
+stepList   自定义步骤名称及简介  目前仅支持三步   type  Array    
 ```
-active        当前步骤        default  0
+```js
+exampie
+  [
+  {step:'步骤自定义',synopsis:'简介自定义'},
+  {step:'步骤自定义',synopsis:'简介自定义'}, 
+  {step:'步骤自定义',synopsis:'简介自定义'},
+  ]
+``` 
+
+
+## Attributes 
+
+```
+```
+
+## Events
+
+```js
+stepClick      点击步骤的标题或图标时触发      回调参数  index:number
 ```

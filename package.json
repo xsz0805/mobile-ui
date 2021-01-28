@@ -8,8 +8,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "lib": "vue-cli-service build --target lib --name sh_mobile --dest lib packages/index.js" 
-    
+    "lib": "vue-cli-service build --target lib --name sh_mobile --dest lib packages/index.js"
   },
   "dependencies": {
     "amfe-flexible": "^2.2.1",
@@ -41,6 +40,4 @@
     "vue-template-compiler": "^2.6.11"
   },
   "description": " # sh_mobile"
-
-
 }

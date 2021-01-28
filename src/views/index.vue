@@ -47,11 +47,11 @@
     <!-- 搜索框 --> 
 
     <!-- 步骤条 -->
-      <mystep ></mystep>
+      <mystep  @stepClick='stepClick' ></mystep>
 
     <!-- 步骤条 -->
-  </div>
-</template>           
+  </div> 
+</template>            
            
 <script>
 export default {
@@ -67,6 +67,9 @@ export default {
     };
   },
   methods: {
+    stepClick (num) {
+      console.log(num,666);
+    },
     mysearch(searchVal) {
       console.log(searchVal, 777);
       let index = this.history.findIndex((item) => {

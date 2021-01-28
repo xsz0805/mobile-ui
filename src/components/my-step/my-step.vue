@@ -2,7 +2,7 @@
       
   <div>
           
-    <van-steps :active="active" active-color="#198ff9">
+    <van-steps :active="active" active-color="#198ff9" @click-step='click'>
       <van-step v-for="(item, index) in stepList" :key="index">
         <template slot="active-icon">
           <img :src="imgActives[index]" alt="" :class="[
@@ -23,7 +23,7 @@
         <p class="mysynopsis">{{ item.synopsis }}</p>
       </van-step>
     </van-steps>
-    <my-button @click="btnclick" >下一步</my-button>
+    <my-button @click="btnclick">下一步</my-button>
     <!-- <div class="van-step__line"></div> -->
   </div>
 </template>
@@ -31,14 +31,16 @@
 <script>
 export default {
   name: "mystep",
- 
+  watch:{
+    
+  },
+      
   props: {
-    active: {
-      default: 0,
-    },
+  
   },
   data() {
     return {
+      active: 0,
       imgActives: [
         require("@/assets/step/1.png"),
         require("@/assets/step/2.png"),
@@ -57,8 +59,11 @@ export default {
     };
   },
   methods: {
+    click (num) {
+      // console.log(num);
+      this.$emit('stepClick',num)
+    },
     btnclick(val) {
-      
       this.active++;
       if (this.active == 2) {
         this.imgInactives[1] = require("@/assets/step/progress_bar_finish.png");
