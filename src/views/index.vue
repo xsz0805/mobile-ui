@@ -51,8 +51,15 @@
       <my-button @click='next'>下一步</my-button>
 
     <!-- 步骤条 -->
+
+    <!-- 进度条 -->
+    <myprogress  hook precent='100'  ></myprogress>
+    <!-- 进度条 -->
+    <!-- 环形条 -->
+    <mycircle></mycircle>   
+    <!-- 环形条 -->
   </div> 
-</template>            
+</template>   
            
 <script>
 export default {
@@ -63,6 +70,7 @@ export default {
   },
   data() {
     return {
+      precent:100,
       active:0,
       stepList: [
         { step: "步骤一", synopsis: "简介" },

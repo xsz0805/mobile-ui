@@ -7,6 +7,8 @@ import mybadge from '@/components/my-badge/my-badge'
 import myicon from '@/components/my-icon/my-icon'
 import mysearch from '@/components/my-search/my-search'
 import mystep from '@/components/my-step/my-step'
+import myprogress from '@/components/my-progress/my-progress'
+import mycircle from '@/components/my-circle/my-circle'
 // import 'lib-flexible/flexible'
 import "amfe-flexible"; 
 import Vant from 'vant';
@@ -19,6 +21,8 @@ Vue.component('mybadge',mybadge)
 Vue.component('myicon',myicon)
 Vue.component('mysearch',mysearch)
 Vue.component('mystep',mystep)
+Vue.component('myprogress',myprogress)
+Vue.component('mycircle',mycircle)
 new Vue({
   router,
   store,

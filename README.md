@@ -1,10 +1,10 @@
 # sh_mobile_ui
 
-# 基于vant-ui搜索组件封装的简单组件
-##  版本更新至  0.2.1
+# 基于Vant-ui封装的简单组件
+##  版本更新至  0.2.3
 ## 安装
-```text
-已经集成Vant ui@2.12.6  无需重复install vant 
+```js
+已经集成 Vant@2.12.6  无需重复install vant 
 ```
 ```js
 npm  i  sh_mobile    
@@ -75,7 +75,7 @@ input      	输入框内容变化时触发   回调参数   value  type:String  
 ```js
 onsearch    确定搜索时触发         回调参数   value   type:String (当前输入的值)   
 ```
-# 步骤条
+# mystep步骤条
 
 ```html
 <mystep></mystep> 
@@ -84,6 +84,9 @@ onsearch    确定搜索时触发         回调参数   value   type:String (�
 
 ```js
 stepList   自定义步骤名称及简介  目前仅支持三步   type  Array    
+```
+```js
+active     当前选中步骤      type  Number  String    default  0   
 ```
 ```js
 exampie
@@ -105,3 +108,58 @@ exampie
 ```js
 stepClick      点击步骤的标题或图标时触发      回调参数  index:number
 ```
+
+# progress进度条
+
+```html
+<myprogress precent='70' hook></myprogress>
+```
+
+## Props
+
+```js
+precent       当前进度百分数      type Number  String    default  70
+```
+
+```js
+modifyColor         进度条颜色         type  String
+```
+
+## Attributes
+```js
+warn     警告样式           type Boolean       default  false
+```
+```js
+error    错误样式           type Boolean       default  false
+```
+```js
+hook    完成是否显示打钩(默认样式下 'precent' = 100)     type Boolean       default  
+```
+
+
+# circle 环形进度条
+
+```html
+<mycricle rate='60' color='red' ></mycricle>
+```
+## Props
+
+```js
+rate       当前进度百分数      type Number  String    default  70
+```
+
+```js
+modifyColor         进度条颜色         type  String
+``` 
+
+## Attributes 
+```js
+warn     警告样式           type Boolean       default  false
+```
+```js
+error    错误样式           type Boolean       default  false
+```
+```js
+finish   成功样式           type Boolean       default  false
+```
+  
