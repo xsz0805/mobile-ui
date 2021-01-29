@@ -9,7 +9,7 @@
       </mybadge>
       <!-- 自定义徽标图片  slot='contentImg'-->
       <mybadge>
-        <my-button>按钮</my-button>
+        <my-button @click='btnclick'>按钮</my-button>
         <template slot="contentImg"><img src="../assets/badge_icon.png" alt="" /></template>
       </mybadge>
       <mybadge>
@@ -47,7 +47,8 @@
     <!-- 搜索框 --> 
 
     <!-- 步骤条 -->
-      <mystep  @stepClick='stepClick' ></mystep>
+      <mystep  @stepClick='stepClick' :stepList='stepList' :active='active'></mystep>
+      <my-button @click='next'>下一步</my-button>
 
     <!-- 步骤条 -->
   </div> 
@@ -62,16 +63,32 @@ export default {
   },
   data() {
     return {
+      active:0,
+      stepList: [
+        { step: "步骤一", synopsis: "简介" },
+        { step: "步骤二", synopsis: "简介二" },
+        { step: "步骤三", synopsis: "简介三" },
+      ],
       value: "",
       history: JSON.parse(localStorage.getItem("history")) || [],
     };
   },
   methods: {
+    next () {
+      this.active++
+      if (this.active == 4) {
+        this.active = 0
+      }
+      console.log(this.active);
+    },
+    btnclick () {
+      // console.log(666777);
+    },
     stepClick (num) {
-      console.log(num,666);
+      // console.log(num,666);
     },
     mysearch(searchVal) {
-      console.log(searchVal, 777);
+      // console.log(searchVal, 777);
       let index = this.history.findIndex((item) => {
         return item == searchVal;
       });
@@ -84,10 +101,10 @@ export default {
       }
     },
     myinput(val) {
-      console.log(val, 666);
+      // console.log(val, 666);
     },
     click1() {
-      console.log(666);
+      // console.log(666);
     },
   },
   mounted() {},

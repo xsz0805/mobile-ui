@@ -1,6 +1,6 @@
 {
   "name": "sh_mobile",
-  "version": "0.2.0",
+  "version": "0.2.3",
   "private": false,
   "main": "lib/sh_mobile.umd.min",
   "style": "lib/sh_mobile.css",

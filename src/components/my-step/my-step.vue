@@ -23,7 +23,7 @@
         <p class="mysynopsis">{{ item.synopsis }}</p>
       </van-step>
     </van-steps>
-    <my-button @click="btnclick">下一步</my-button>
+    <!-- <my-button @click="btnclick">下一步</my-button> -->
     <!-- <div class="van-step__line"></div> -->
   </div>
 </template>
@@ -31,16 +31,50 @@
 <script>
 export default {
   name: "mystep",
-  watch:{
-    
+  watch: {
+    active(nreval) {
+      if (nreval == 0) {
+        this.imgActives[0] = require("@/assets/step/1.png");
+        this.imgInactives[1] = require("@/assets/step/steps_two.png");
+        this.imgInactives[2] = require("@/assets/step/steps_three.png");
+      }
+      if (this.active == 1) {
+        this.imgInactives[0] = require("@/assets/step/progress_bar_finish.png");
+      }
+      if (this.active == 2) {
+        this.imgInactives[1] = require("@/assets/step/progress_bar_finish.png");
+      }
+      if (this.active == 3) {
+        this.imgInactives[2] = require("@/assets/step/progress_bar_finish.png");
+      }
+      if (this.active == 4) {
+        this.imgInactives = [
+          require("@/assets/step/1.png"),
+          require("@/assets/step/steps_two.png"),
+          require("@/assets/step/steps_three.png"),
+        ];
+      }
+    },
   },
-      
+
   props: {
-  
+    stepList: {
+      type: Array,
+      default() {
+        return [
+          { step: "步骤一", synopsis: "简介一" },
+          { step: "步骤二", synopsis: "简介二" },
+          { step: "步骤三", synopsis: "简介三" },
+        ];
+      },
+    },
+    active: {
+      type: [String, Number],
+      default: 0,
+    },
   },
   data() {
     return {
-      active: 0,
       imgActives: [
         require("@/assets/step/1.png"),
         require("@/assets/step/2.png"),
@@ -51,35 +85,16 @@ export default {
         require("@/assets/step/steps_two.png"),
         require("@/assets/step/steps_three.png"),
       ],
-      stepList: [
-        { step: "步骤一", synopsis: "简介一" },
-        { step: "步骤二", synopsis: "简介二" },
-        { step: "步骤三", synopsis: "简介三" },
-      ],
     };
   },
   methods: {
-    click (num) {
+    click(num) {
       // console.log(num);
-      this.$emit('stepClick',num)
+      this.$emit("stepClick", num);
     },
-    btnclick(val) {
-      this.active++;
-      if (this.active == 2) {
-        this.imgInactives[1] = require("@/assets/step/progress_bar_finish.png");
-      }
-      if (this.active == 3) {
-        this.imgInactives[2] = require("@/assets/step/progress_bar_finish.png");
-      }
-      if (this.active == 4) {
-        this.active = 0;
-        this.imgInactives = [
-          require("@/assets/step/progress_bar_finish.png"),
-          require("@/assets/step/steps_two.png"),
-          require("@/assets/step/steps_three.png"),
-        ];
-      }
-    },
+    // btnclick(val) {
+    //   // this.active++;
+    // },
   },
 };
 </script>

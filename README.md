@@ -1,7 +1,7 @@
 # sh_mobile_ui
 
 # 基于vant-ui搜索组件封装的简单组件
-##  版本更新至  0.2.0
+##  版本更新至  0.2.1
 ## 安装
 ```text
 已经集成Vant ui@2.12.6  无需重复install vant 
@@ -38,7 +38,15 @@ count    数字内容        type: Number   String
 contentImg    自定义徽标内容 
 ```
 
+# 按钮
 
+```html
+<mybutton>按钮</mybutton>
+```
+## Events
+```js
+click       点击事件
+```
 
 # mysearch  搜索组件
 
