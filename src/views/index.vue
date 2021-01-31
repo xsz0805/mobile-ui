@@ -44,7 +44,7 @@
 
     <!-- 热搜样式     Attr  hotStyle  type  boolean  default  false-->
     <mysearch hotStyle='true'> </mysearch>
-    <!-- 搜索框 --> 
+    <!-- 搜索框 -->
 
     <!-- 步骤条 -->
       <mystep  @stepClick='stepClick' :stepList='stepList' :active='active'></mystep>
@@ -56,8 +56,13 @@
     <myprogress  hook precent='100'  ></myprogress>
     <!-- 进度条 -->
     <!-- 环形条 -->
-    <mycircle></mycircle>   
+    <mycircle  rate='80' ></mycircle>   
     <!-- 环形条 -->
+    
+
+    <!-- 树形展示组件 -->
+    <mytree></mytree>
+    <!-- 树形展示组件 -->
   </div> 
 </template>   
            

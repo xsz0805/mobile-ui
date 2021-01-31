@@ -13,7 +13,7 @@
       </div>     
     </template> 
     <template v-else>   
-      <van-progress :percentage="precent" :color="precent == 100 ? 'green' : modifyColor" />
+      <van-progress :percentage="precent" :color="precent == 100 ? '#52c41a' : modifyColor" />
       <div class="precent">
         <span v-if="hook && precent == 100 "><img src="../../assets/step/progress_bar_finish.png" alt=""></span>
         <span v-else>{{precent}}%</span>

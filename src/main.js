@@ -9,6 +9,8 @@ import mysearch from '@/components/my-search/my-search'
 import mystep from '@/components/my-step/my-step'
 import myprogress from '@/components/my-progress/my-progress'
 import mycircle from '@/components/my-circle/my-circle'
+import mytree from '@/components/my-tree/my-tree'
+import itemtree from '@/components/my-tree/my-tree-item'
 // import 'lib-flexible/flexible'
 import "amfe-flexible"; 
 import Vant from 'vant';
@@ -23,6 +25,9 @@ Vue.component('mysearch',mysearch)
 Vue.component('mystep',mystep)
 Vue.component('myprogress',myprogress)
 Vue.component('mycircle',mycircle)
+Vue.component('mytree',mytree)
+Vue.component('itemtree',itemtree)
+
 new Vue({
   router,
   store,
