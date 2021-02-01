@@ -1,12 +1,13 @@
 <template>
       
   <div>
-    <!-- 徽标 -->
+
     <div>
       <!-- 树形展示组件 -->
-      <mytree  :dataTree= 'dataTree'  @rightEdit='rightEdit'  @iptTree='iptTree' @success='success' @delTree='delTree'></mytree>
+      <mytree :dataTree='dataTree' @rightEdit='rightEdit' @iptTree='iptTree' @success='success' @delTree='delTree'></mytree>
       <!-- 树形展示组件 -->
 
+      <!-- 徽标 -->
       <!-- 徽标数 -->
       <mybadge count="666">
         <my-button>按钮</my-button>
@@ -64,7 +65,7 @@
     <!-- 环形条 -->
 
     <!-- 加载 -->
-    <myloading loading type=2></myloading>
+    <myloading type=2></myloading>
     <!-- 加载 -->
 
   </div>
@@ -79,7 +80,7 @@ export default {
   },
   data() {
     return {
-      iptValue:'123',
+      iptValue: "123",
       precent: 100,
       dataTree: {
         name: "一级",
@@ -120,16 +121,16 @@ export default {
     };
   },
   methods: {
-    delTree (result) {
+    delTree(result) {
       // console.log(result);
     },
-    success (data) {
-        // console.log(data);
+    success(data) {
+      // console.log(data);
     },
-    iptTree (val) {
-        console.log(val);
+    iptTree(val) {
+      console.log(val);
     },
-    rightEdit (val) {
+    rightEdit(val) {
       console.log(val);
     },
     next() {
