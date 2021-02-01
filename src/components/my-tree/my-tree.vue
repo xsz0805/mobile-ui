@@ -1,8 +1,10 @@
 <template>
-      <div class="mytree">
-    <van-nav-bar title="树形" :right-text="edit ? '完成' : '编辑'" left-arrow @click-right="onClickRight" />
-        <itemtree class="item" :item="treeData" @make-folder="makeFolder" @add-item="addItem" @del-item='delitem' :edit='edit' :show='show'></itemtree>
-
+  <div class="mytree">
+    <!-- 导航栏 -->
+    <van-nav-bar title="树形" :right-text="edit ?  '完成' : '编辑'" left-text="返回" left-arrow  @click-left="onClickLeft" @click-right="onClickRight" />
+    <!-- 树形组件 -->
+    <itemtree class="item" :item="treeData" @make-folder="makeFolder" @add-item="addItem" @del-item='delitem' :edit='edit' :show='show'></itemtree>
+    <!-- 弹出确认框 -->
     <van-dialog v-model="show" title="新增目录" show-cancel-button @confirm='confirm'>
       <van-radio-group v-model="radio" direction="horizontal">
         <div class="my-form">
@@ -22,80 +24,98 @@
             </van-radio>
           </van-radio-group>
 
-          <input type="text" class="ipt" v-model="iptValue">
+          <input type="text" class="ipt" v-model="iptValue" @input='input'>
 
         </div>
       </van-radio-group>
-    </van-dialog>
-        
+    </van-dialog>     
   </div>
 </template>
            
 <script>
 import { Dialog } from "vant";
 export default {
+  name: "mytree",
   data() {
     return {
-      iptValue: "123",
+     edit:false,
+     show:false,
+      i: 0,
+      newarr: [],
+      treeData:this.dataTree,
       objList: [],
       radio: "1",
       activeIcon: require("../../assets/tree/selected_radio.png"),
       inactiveIcon: require("../../assets/tree/select_radio.png"),
       value: "",
-      show: false,
-      edit: true,
-      treeData: {
-        name: "一级",
-        children: [
-          { name: "书", id: 2 },
-          { name: "本", id: 2 },
-          {
-            name: "二级",
-            children: [
-              {
-                name: "三级",
-                children: [
-                  { name: "书3", id: 3 },
-                  { name: "本3", id: 3 },
-                ],
-              },
-              { name: "书2", id: 2 },
-              { name: "本2", id: 2 },
-              {
-                name: "三级",
-                children: [
-                  { name: "书3", id: 3 },
-                  { name: "本3", id: 3 },
-                ],
-              },
-            ],
-          },
-        ],
-      },
+      iptValue:'sh'
     };
   },
+  props: {
+    
+    dataTree: {
+      type: [Object, Array],
+      default() {
+        return {
+          name: "一级",
+          children: [
+            { name: "书", id: 2 },
+            { name: "本", id: 2 },
+            {
+              name: "二级",
+              children: [
+                {
+                  name: "三级",
+                  children: [
+                    { name: "书3", id: 3 },
+                    { name: "本3", id: 3 },
+                  ],
+                },
+                { name: "书2", id: 2 },
+                { name: "本2", id: 2 },
+                {
+                  name: "三级",
+                  children: [
+                    { name: "书3", id: 3 },
+                    { name: "本3", id: 3 },
+                  ],
+                },
+              ],
+            },
+          ],
+        };
+      },
+    },
+  },
   methods: {
+    //输入事件  触发父组件
+    input () {
+        this.$emit('iptTree',this.iptValue)
+    },
+    //选择添加目录类型
     confirm() {
       if (this.radio == "1") {
         this.arrList.children.push({
           name: this.iptValue,
         });
+        this.iptValue = "";
       }
       if (this.radio == "2") {
-        // console.log(this.objList,3333);
-        this.$set(this.objList, "children", []);
-        // this.addItem(this.objList);
-        this.objList.children.push({
-          name: this.iptValue,
-        });
+        if (this.objList.children) {
+          this.objList.children.push({
+            name: this.iptValue,
+          });
+        } else {
+          this.$set(this.objList, "children", []);
+
+          this.objList.children.push({
+            name: this.iptValue,
+          });
+        }
+        this.iptValue = "";
       }
-      console.log(this.treeData,888);
-
-      // if (this.radio == "1") {
-
-      // } else {
-
-      // }
+      // console.log(this.treeData,this.dataTree);
+      this.$emit('success',this.treeData)
     },
     change(name) {
       if (name == "1") {
@@ -108,15 +128,20 @@ export default {
       }
     },
 
-    onClickRight() {
-      this.edit = !this.edit;
+    onClickLeft () {
+      
+
     },
+    //显示编辑按钮
+    onClickRight() {
+      this.$emit('rightEdit',this.edit)
+      this.edit = !this.edit;
+      
+    },
+
     makeFolder: function (item) {
       this.show = !this.show;
-      console.log(item, 222);
       this.objList = item;
-      // this.$set(item, "children", []);
-      // this.addItem(item);
     },
     // additem1(item) {
     //   item.children.push({
@@ -124,30 +149,37 @@ export default {
     //   });
     // },
 
+    //删除指定目录 递归函数
+    delElement(arr, itm) {
+      arr.forEach((element, index) => {
+        if (element.name == itm.name) {
+          this.i = index;
+          this.newarr = arr;
+          return;
+        } else {
+          if (element.children) {
+            this.delElement(element.children, itm);
+          }
+        }
+      });
+    },
+    //删除指定目录
     delitem(item) {
-      console.log(item);
       Dialog.confirm({
         title: "确定删除该目录吗?",
         message: "删除后若有子菜单也会删除",
       })
         .then(() => {
-          console.log("删除");
+          this.delElement(this.treeData.children, item);
+          this.newarr.splice(this.i, 1);
+          this.$emit('delTree',this.treeData)
         })
         .catch(() => {
           // on cancel
         });
     },
     addItem: function (item) {
-      // this.show = !this.show;
-      // console.log(this.show);
-      console.log(item, 333);
-      // console.log(item.target.parentNode.parentNode.parentNode.parentNode, 111);
-      // var father = item.target.parentNode.parentNode.parentNode.parentNode
-
       this.arrList = item;
-      // item.children.push({
-      //   name: this.iptValue,
-      // });
     },
   },
 };

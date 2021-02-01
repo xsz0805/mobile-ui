@@ -7,5 +7,6 @@
 <style  lang="less">
 body,html {
   padding: 10px;
+  
 }
 </style>

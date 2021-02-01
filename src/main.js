@@ -11,22 +11,26 @@ import myprogress from '@/components/my-progress/my-progress'
 import mycircle from '@/components/my-circle/my-circle'
 import mytree from '@/components/my-tree/my-tree'
 import itemtree from '@/components/my-tree/my-tree-item'
+import myloading from '@/components/my-loading/my-loading'
 // import 'lib-flexible/flexible'
-import "amfe-flexible"; 
+import "amfe-flexible";
 import Vant from 'vant';
 import 'vant/lib/index.css';
+import lottie from 'vue-lottie';
+Vue.component('lottie', lottie)
 
 Vue.use(Vant);
 Vue.config.productionTip = false
-Vue.component('myButton',myButton)
-Vue.component('mybadge',mybadge)
-Vue.component('myicon',myicon)
-Vue.component('mysearch',mysearch)
-Vue.component('mystep',mystep)
-Vue.component('myprogress',myprogress)
-Vue.component('mycircle',mycircle)
-Vue.component('mytree',mytree)
-Vue.component('itemtree',itemtree)
+Vue.component('myButton', myButton)
+Vue.component('mybadge', mybadge)
+Vue.component('myicon', myicon)
+Vue.component('mysearch', mysearch)
+Vue.component('mystep', mystep)
+Vue.component('myprogress', myprogress)
+Vue.component('mycircle', mycircle)
+Vue.component('mytree', mytree)
+Vue.component('itemtree', itemtree)
+Vue.component('myloading', myloading)
 
 new Vue({
   router,

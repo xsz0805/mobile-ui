@@ -1,7 +1,7 @@
 # sh_mobile_ui
 
 # 基于Vant-ui封装的简单组件
-##  版本更新至  0.2.3
+##  版本更新至  0.2.5
 ## 安装
 ```js
 已经集成 Vant@2.12.6  无需重复install vant 
@@ -162,4 +162,89 @@ error    错误样式           type Boolean       default  false
 ```js
 finish   成功样式           type Boolean       default  false
 ```
+
+#  myloading  加载...
+
+使用
+```js
+import lottie from 'vue-lottie';
+Vue.component('lottie', lottie)
+
+```
+
+```html
+<myloading type=2 loading></loading>
+```
+
+## Props
+
+```js
+loading        是否显示遮罩层       type Boolean     default  false
+```
+
+## Attributes
+
+```js
+type      加载样式     type  Number(0、1、2) 三种样式    default  2
+```
   
+
+# 树形组件 mytree
+
+```html
+<mytree></mytree>
+```
+
+Props
+
+```js
+treeData   树形组件数据     type Object      固定格式   
+```
+```
+example   
+```
+```js
+ {
+          name: "一级",
+          children: [
+            { name: "书", id: 1 },
+            { name: "本", id: 1 },
+            {
+              name: "二级",
+              children: [
+                {
+                  name: "三级",
+                  children: [
+                    { name: "书3", id: 3 },
+                    { name: "本3", id: 3 },
+                  ],
+                },
+                { name: "书2", id: 2 },
+                { name: "本2", id: 2 },
+                {
+                  name: "三级",
+                  children: [
+                    { name: "书3", id: 3 },
+                    { name: "本3", id: 3 },
+                  ],
+                },
+              ],
+            },
+          ],
+        }
+```
+
+## Events
+
+```js
+rightEdit       右侧编辑按钮点击事件      
+```
+```js
+iptTree        弹出框修改目录名称输入事件         回调参数   val    当前输入框的值
+```
+```js
+success        确认修改目录触发事件              回调参数   data    返回修改后的目录数据  
+```
+```js
+delTree        确认删除目录触发事件              回调参数   result  返回删除后的目录数据
+```

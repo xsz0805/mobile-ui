@@ -10,7 +10,8 @@ Vue.use(VueRouter)
 // },
 const routes = [
   {path:'/',redirect:'/index'},
-  {path:'/index',component: () => import('@/views/index')}
+  {path:'/index',component: () => import('@/views/index')},
+  // {path:'/tree',component: () => import('@/views/tree')}  
 ]
 
 const router = new VueRouter({

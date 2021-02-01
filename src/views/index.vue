@@ -3,6 +3,10 @@
   <div>
     <!-- 徽标 -->
     <div>
+      <!-- 树形展示组件 -->
+      <mytree  :dataTree= 'dataTree'  @rightEdit='rightEdit'  @iptTree='iptTree' @success='success' @delTree='delTree'></mytree>
+      <!-- 树形展示组件 -->
+
       <!-- 徽标数 -->
       <mybadge count="666">
         <my-button>按钮</my-button>
@@ -47,23 +51,23 @@
     <!-- 搜索框 -->
 
     <!-- 步骤条 -->
-      <mystep  @stepClick='stepClick' :stepList='stepList' :active='active'></mystep>
-      <my-button @click='next'>下一步</my-button>
+    <mystep @stepClick='stepClick' :stepList='stepList' :active='active'></mystep>
+    <my-button @click='next'>下一步</my-button>
 
     <!-- 步骤条 -->
 
     <!-- 进度条 -->
-    <myprogress  hook precent='100'  ></myprogress>
+    <myprogress hook precent='100'></myprogress>
     <!-- 进度条 -->
     <!-- 环形条 -->
-    <mycircle  rate='80' ></mycircle>   
+    <mycircle rate='80'></mycircle>
     <!-- 环形条 -->
-    
 
-    <!-- 树形展示组件 -->
-    <mytree></mytree>
-    <!-- 树形展示组件 -->
-  </div> 
+    <!-- 加载 -->
+    <myloading loading type=2></myloading>
+    <!-- 加载 -->
+
+  </div>
 </template>   
            
 <script>
@@ -75,8 +79,37 @@ export default {
   },
   data() {
     return {
-      precent:100,
-      active:0,
+      iptValue:'123',
+      precent: 100,
+      dataTree: {
+        name: "一级",
+        children: [
+          { name: "你好", id: 2 },
+          { name: "本", id: 2 },
+          {
+            name: "二级",
+            children: [
+              {
+                name: "三级",
+                children: [
+                  { name: "书3", id: 3 },
+                  { name: "本3", id: 3 },
+                ],
+              },
+              { name: "书2", id: 2 },
+              { name: "本2", id: 2 },
+              {
+                name: "三级",
+                children: [
+                  { name: "书3", id: 3 },
+                  { name: "本3", id: 3 },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+      active: 0,
       stepList: [
         { step: "步骤一", synopsis: "简介" },
         { step: "步骤二", synopsis: "简介二" },
@@ -87,17 +120,29 @@ export default {
     };
   },
   methods: {
-    next () {
-      this.active++
+    delTree (result) {
+      // console.log(result);
+    },
+    success (data) {
+        // console.log(data);
+    },
+    iptTree (val) {
+        console.log(val);
+    },
+    rightEdit (val) {
+      console.log(val);
+    },
+    next() {
+      this.active++;
       if (this.active == 4) {
-        this.active = 0
+        this.active = 0;
       }
       console.log(this.active);
     },
-    btnclick () {
+    btnclick() {
       // console.log(666777);
     },
-    stepClick (num) {
+    stepClick(num) {
       // console.log(num,666);
     },
     mysearch(searchVal) {
@@ -128,6 +173,6 @@ export default {
 /deep/img {
   width: 100%;
   height: 100%;
-  // vertical-align: middle;
+  vertical-align: middle;
 }
 </style>
