@@ -3,6 +3,11 @@
   <div>
 
     <div>
+        <!-- 拼图验证 -->
+      <mycaptcha></mycaptcha>
+        <!-- 拼图验证 -->
+
+
       <!-- 树形展示组件 -->
       <mytree :dataTree='dataTree' @rightEdit='rightEdit' @iptTree='iptTree' @success='success' @delTree='delTree'></mytree>
       <!-- 树形展示组件 -->
@@ -67,19 +72,24 @@
     <!-- 加载 -->
     <myloading type=2></myloading>
     <!-- 加载 -->
-
+    <jcRange status="status"></jcRange>
   </div>
 </template>   
            
 <script>
+import jcRange from '@/components/my-captcha/my-huadong'
 export default {
   watch: {
     value(val) {
       console.log(val);
     },
   },
+  components:{
+    jcRange
+  },
   data() {
     return {
+      status: false,
       iptValue: "123",
       precent: 100,
       dataTree: {

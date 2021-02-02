@@ -12,6 +12,7 @@ import mycircle from '@/components/my-circle/my-circle'
 import mytree from '@/components/my-tree/my-tree'
 import itemtree from '@/components/my-tree/my-tree-item'
 import myloading from '@/components/my-loading/my-loading'
+import mycaptcha from '@/components/my-captcha/my-captcha'
 // import 'lib-flexible/flexible'
 import "amfe-flexible";
 import Vant from 'vant';
@@ -31,6 +32,7 @@ Vue.component('mycircle', mycircle)
 Vue.component('mytree', mytree)
 Vue.component('itemtree', itemtree)
 Vue.component('myloading', myloading)
+Vue.component('mycaptcha', mycaptcha)
 
 new Vue({
   router,
