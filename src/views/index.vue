@@ -73,6 +73,8 @@
     <myloading type=2></myloading>
     <!-- 加载 -->
     <jcRange status="status"></jcRange>
+
+    <mypoints></mypoints>
   </div>
 </template>   
            

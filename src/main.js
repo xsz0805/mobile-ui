@@ -13,6 +13,7 @@ import mytree from '@/components/my-tree/my-tree'
 import itemtree from '@/components/my-tree/my-tree-item'
 import myloading from '@/components/my-loading/my-loading'
 import mycaptcha from '@/components/my-captcha/my-captcha'
+import mypoints from '@/components/my-captcha/my-points'
 // import 'lib-flexible/flexible'
 import "amfe-flexible";
 import Vant from 'vant';
@@ -33,6 +34,7 @@ Vue.component('mytree', mytree)
 Vue.component('itemtree', itemtree)
 Vue.component('myloading', myloading)
 Vue.component('mycaptcha', mycaptcha)
+Vue.component('mypoints', mypoints)
 
 new Vue({
   router,
