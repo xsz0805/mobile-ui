@@ -2,8 +2,8 @@
   <van-dialog v-model="show" :showConfirmButton='false'>
     <div style="position: relative" @mouseover="mode === 'pop'?(showImage = true):undefined" @mouseout="mode === 'pop'?(showImage = false):undefined">
       <div class="point_title" style="z-index:3" v-show="showRefresh">
-        <span class="content fl">选自验证码</span>
-        <van-icon class="rl" size=25 name="cross" />
+        <span class="content fl">选字验证码</span>
+        <van-icon class="rl" size=25 name="cross" @click="close" />
         <van-icon class="rl" size=25 @click="refresh" name="replay" />
       </div>
       <div class="verify-img-out" v-show="showImage" @mouseover="mode === 'pop'?(showImage = true):undefined" @mouseout="mode === 'pop'?(showImage = false):undefined" :style="mode === 'pop' ?
@@ -43,8 +43,6 @@
   </van-dialog>
 </template>
 <script type="text/babel">
-
-
 import {
   resetSize,
   _code_chars,
@@ -89,12 +87,12 @@ export default {
     },
     imgUrl: {
       type: String,
-      default: "https://picsum.photos/300/150/?image=",
+      default: "https://picsum.photos/300/150/?random=",
     },
     imgName: {
       type: Array,
       default() {
-        return ["180", "3", "88", "888", "999", "1080"];
+        return [1, 2, 3, 4, 5, 6, 7, 8, 9];
       },
     },
     imgSize: {
@@ -170,7 +168,7 @@ export default {
             //验证失败
             this.statusFlag = false;
             this.status = true;
-            this.successText = "验证失败";
+            this.successText = "验证失败,请重试";
             this.$parent.$emit("error", this);
             this.barAreaColor = "#d9534f";
             this.barAreaBorderColor = "#d9534f";
@@ -323,6 +321,9 @@ export default {
 
       return flag;
     },
+    close() {
+      this.show = false;
+    },
     refresh: function () {
       this.statusFlag = false;
       this.tempPoints.splice(0, this.tempPoints.length);
@@ -399,12 +400,13 @@ export default {
 }
 .rl {
   float: right;
-  margin-left: 2rem;
+  margin-left: 1rem;
 }
 .point_title {
-  margin: 1rem 0.2rem;
+  margin: 0.5rem 0.2rem;
   height: 2rem;
   line-height: 2rem;
+  padding: 0 0.5rem;
 }
 .verify-bar-area {
   width: 100%;
@@ -414,6 +416,6 @@ export default {
 .van-icon,
 .van-icon-cross {
   color: #bfbfbf;
-  top:0.55rem
+  top: 0.6rem;
 }
 </style>

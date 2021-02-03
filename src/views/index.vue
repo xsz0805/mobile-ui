@@ -3,10 +3,16 @@
   <div>
 
     <div>
-        <!-- 拼图验证 -->
-      <mycaptcha></mycaptcha>
-        <!-- 拼图验证 -->
+      <!-- 短信验证码 -->
+      <mymessage @msginput='msginput' @send='send'></mymessage>
+      <!-- 短信验证码 -->
+      <!-- 运算验证码 -->
+      <mycompute @success='success' @error='error'></mycompute>
+      <!-- 运算验证码 -->
 
+      <!-- 拼图验证 -->
+      <mycaptcha :show='false' @success='successCapt' @error='errorCapt' :visible='false'></mycaptcha>
+      <!-- 拼图验证 -->
 
       <!-- 树形展示组件 -->
       <mytree :dataTree='dataTree' @rightEdit='rightEdit' @iptTree='iptTree' @success='success' @delTree='delTree'></mytree>
@@ -72,25 +78,25 @@
     <!-- 加载 -->
     <myloading type=2></myloading>
     <!-- 加载 -->
-    <jcRange status="status"></jcRange>
+    <myslide  @success='success' @error='error'></myslide>
+    <!-- 选字验证 -->
+    <!-- <mypoints></mypoints> -->
+    <!-- 选字验证 -->
 
-    <mypoints></mypoints>
   </div>
 </template>   
            
 <script>
-import jcRange from '@/components/my-captcha/my-huadong'
 export default {
   watch: {
     value(val) {
       console.log(val);
     },
   },
-  components:{
-    jcRange
-  },
+
   data() {
     return {
+      captshow:true,
       status: false,
       iptValue: "123",
       precent: 100,
@@ -133,11 +139,31 @@ export default {
     };
   },
   methods: {
+    send (code) {
+      console.log(code);
+    },
+    msginput (val) {
+      console.log(val);
+    },
+    error () {
+      console.log(313);
+    },
+    errorCapt () {
+      console.log(665566);
+    },
+    successCapt (val) {
+        console.log(val,666);
+        setTimeout(() => {
+          this.captshow = !val
+        }, 1000);
+        
+    },
     delTree(result) {
       // console.log(result);
     },
     success(data) {
       // console.log(data);
+      console.log(131);
     },
     iptTree(val) {
       console.log(val);

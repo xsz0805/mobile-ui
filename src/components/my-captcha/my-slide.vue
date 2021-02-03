@@ -2,15 +2,17 @@
   <div class="drag" ref="dragDiv">
     <div :class="['drag_bg',{'drag_success':confirmSuccess}]"></div>
     <div class="drag_text">{{confirmWords}}</div>
-    <div ref="moveDiv" @touchstart="mousedownFn($event)" :class="['handler','handler_bg',{'handler_ok_bg':confirmSuccess},{'handler_move_bg':mouseMoveStata},{'handler_fail':mouseMovefail}]" style="position: absolute;top: 0px;left: 0px;"></div>
+    <div ref="moveDiv" @touchstart="mousedownFn($event)" :class="['handler','handler_bg',{'handler_ok_bg':confirmSuccess},{'handler_move_bg':mouseMoveStata},{'handler_fail':mouseMovefail}]"
+      style="position: absolute;top: 0px;left: 0px;"></div>
   </div>
 </template>
  
 <script>
 export default {
+  name: "myslide",
   data() {
     return {
-      mouseMovefail:false,
+      mouseMovefail: false,
       beginClientX: 0 /*距离屏幕左端距离*/,
       mouseMoveStata: false /*触发拖动状态  判断*/,
       maxwidth: "" /*拖动最大宽度，依据滑块宽度算出来的*/,
@@ -24,15 +26,16 @@ export default {
         e.preventDefault && e.preventDefault(); //阻止文字选中等 浏览器默认事件
         this.mouseMoveStata = true;
         this.beginClientX = e.changedTouches[0].clientX;
-         document.getElementsByClassName("drag_bg")[0].style.border =
+        document.getElementsByClassName("drag_bg")[0].style.border =
           " 1px solid #1989ff";
       }
     }, //mousedoen 事件
     successFunction() {
       this.confirmSuccess = true;
       this.confirmWords = "验证成功";
-         document.getElementsByClassName("drag_bg")[0].style.border =
-          " 1px solid #52c419";
+      this.$emit('success')
+      document.getElementsByClassName("drag_bg")[0].style.border =
+        " 1px solid #52c419";
       if (window.addEventListener) {
         document
           .getElementsByTagName("html")[0]
@@ -55,8 +58,8 @@ export default {
       if (this.mouseMoveStata) {
         let width = e.changedTouches[0].clientX - this.beginClientX;
         if (width > 0 && width <= this.maxwidth) {
-          this.mouseMovefail = false
-         
+          this.mouseMovefail = false;
+
           document.getElementsByClassName("handler")[0].style.transition =
             "none";
           document.getElementsByClassName("drag_bg")[0].style.transition =
@@ -79,10 +82,11 @@ export default {
       var width = e.changedTouches[0].clientX - this.beginClientX;
       // console.log(width);
       if (width < this.maxwidth) {
-        this.mouseMovefail = true
-         setTimeout(() => {
-            this.mouseMovefail = false
-          }, 500);
+        this.mouseMovefail = true;
+        this.$emit('error')
+        setTimeout(() => {
+          this.mouseMovefail = false;
+        }, 500);
         document.getElementsByClassName("handler")[0].style.transition =
           ".5s all";
         document.getElementsByClassName("drag_bg")[0].style.transition =

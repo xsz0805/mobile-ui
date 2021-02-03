@@ -1,10 +1,10 @@
 # sh_mobile_ui
 
 # 基于Vant-ui封装的简单组件
-##  版本更新至  0.2.5
+##  版本更新至  0.2.6
 ## 安装
 ```js
-已经集成 Vant@2.12.6  无需重复install vant 
+集成 Vant@2.12.6  无需重复install vant 
 ```
 ```js
 npm  i  sh_mobile    
@@ -89,7 +89,7 @@ stepList   自定义步骤名称及简介  目前仅支持三步   type  Array
 active     当前选中步骤      type  Number  String    default  0   
 ```
 ```js
-exampie
+example
   [
   {step:'步骤自定义',synopsis:'简介自定义'},
   {step:'步骤自定义',synopsis:'简介自定义'}, 
@@ -247,4 +247,68 @@ success        确认修改目录触发事件              回调参数   data  
 ```
 ```js
 delTree        确认删除目录触发事件              回调参数   result  返回删除后的目录数据
+```
+
+# 验证码
+
+## 拼图验证码/选字验证码
+```js
+import { Toast } from "vant";
+```
+```html
+ <mycaptcha :show='captshow' @success='successCapt' @error='errorCapt' :visible='true'></mycaptcha>
+```
+## Props
+```js
+show       是否显示验证码       type  Boolean    default  false
+```
+```js
+visible     拼图/选字验证码切换      type  Boolean   default   fasle
+```
+
+## Events
+```js
+success    验证成功回调           回调参数   show  type  Boolean   
+```
+```js
+error      验证失败回调
+```
+
+## 滑动验证
+```html
+<myslide  @success='success' @error='error'></myslide>
+```
+
+## Events
+```js
+success    验证成功回调            
+```
+```js
+error      验证失败回调
+```
+
+## 运算验证码   
+```html
+<mycompute @success='success' @error='error'></mycompute>
+```
+## Events
+```js
+success    验证成功回调            
+```
+```js
+error      验证失败回调
+```
+
+## 短信验证码
+```html
+<mymessage @msginput='msginput'></mymessage>
+```
+
+## Events
+
+```js
+msginput   触发输入事件       回调参数   val  输入框的值
+```
+```js
+send       发送验证码         回调参数   code   输入框的值
 ```

@@ -14,6 +14,9 @@ import itemtree from '@/components/my-tree/my-tree-item'
 import myloading from '@/components/my-loading/my-loading'
 import mycaptcha from '@/components/my-captcha/my-captcha'
 import mypoints from '@/components/my-captcha/my-points'
+import mycompute from '@/components/my-captcha/my-compute'
+import myslide from '@/components/my-captcha/my-slide'
+import mymessage from '@/components/my-captcha/my-message'
 // import 'lib-flexible/flexible'
 import "amfe-flexible";
 import Vant from 'vant';
@@ -35,6 +38,9 @@ Vue.component('itemtree', itemtree)
 Vue.component('myloading', myloading)
 Vue.component('mycaptcha', mycaptcha)
 Vue.component('mypoints', mypoints)
+Vue.component('mycompute', mycompute)
+Vue.component('myslide', myslide)
+Vue.component('mymessage', mymessage)
 
 new Vue({
   router,
