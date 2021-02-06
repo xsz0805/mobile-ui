@@ -3,6 +3,12 @@
   <div>
 
     <div>
+      <!-- 上传 -->
+      <myupload @upload='upload' v-model='info'></myupload>{{info}}
+      <!-- 上传 -->
+      <!-- 扫一扫 -->
+      <myscan v-model="iptval" type='ipt' @scanClick='scanClick'></myscan>{{iptval}}
+      <!-- 扫一扫 -->
       <!-- 短信验证码 -->
       <mymessage @msginput='msginput' @send='send'></mymessage>
       <!-- 短信验证码 -->
@@ -15,7 +21,7 @@
       <!-- 拼图验证 -->
 
       <!-- 树形展示组件 -->
-      <mytree :dataTree='dataTree' @rightEdit='rightEdit' @iptTree='iptTree' @success='success' @delTree='delTree'></mytree>
+      <mytree :dataTree='dataTree' @rightEdit='rightEdit' @iptTree='iptTree' @editItem='editItem' @success='success' @delTree='delTree'></mytree>
       <!-- 树形展示组件 -->
 
       <!-- 徽标 -->
@@ -78,16 +84,20 @@
     <!-- 加载 -->
     <myloading type=2></myloading>
     <!-- 加载 -->
-    <myslide  @success='success' @error='error'></myslide>
+    <!-- 滑动验证码 -->
+    <!-- <myslide  @success='success' @error='error'></myslide> -->
+    <!-- 滑动验证码 -->
     <!-- 选字验证 -->
     <!-- <mypoints></mypoints> -->
     <!-- 选字验证 -->
-
+    <mycode></mycode>
   </div>
 </template>   
            
 <script>
+
 export default {
+ 
   watch: {
     value(val) {
       console.log(val);
@@ -96,32 +106,43 @@ export default {
 
   data() {
     return {
-      captshow:true,
+     
+      info: {},
+      iptval: "",
+      captshow: true,
       status: false,
       iptValue: "123",
       precent: 100,
       dataTree: {
         name: "一级",
+        id: 1,
+        time: +new Date(),
         children: [
-          { name: "你好", id: 2 },
-          { name: "本", id: 2 },
+          { name: "书", id: 2, time: +new Date() },
+          { name: "本", id: 2, time: +new Date() },
           {
             name: "二级",
+            id: 2,
+            time: +new Date(),
             children: [
               {
                 name: "三级",
+                id: 3,
+                time: +new Date(),
                 children: [
-                  { name: "书3", id: 3 },
-                  { name: "本3", id: 3 },
+                  { name: "书3", id: 4, time: +new Date() },
+                  { name: "本3", id: 4, time: +new Date() },
                 ],
               },
-              { name: "书2", id: 2 },
-              { name: "本2", id: 2 },
+              { name: "书3", id: 3, time: +new Date() },
+              { name: "本3", id: 3, time: +new Date() },
               {
                 name: "三级",
+                id: 3,
+                time: +new Date(),
                 children: [
-                  { name: "书3", id: 3 },
-                  { name: "本3", id: 3 },
+                  { name: "书3", id: 4, time: +new Date() },
+                  { name: "本3", id: 4, time: +new Date() },
                 ],
               },
             ],
@@ -139,24 +160,35 @@ export default {
     };
   },
   methods: {
-    send (code) {
+  
+    editItem(data) {
+      console.log(data, 666);
+    },
+    upload(result, formData) {
+      console.log(result);
+      console.log(formData);
+      console.log(this.info);
+    },
+    scanClick() {
+      console.log(133113);
+    },
+    send(code) {
       console.log(code);
     },
-    msginput (val) {
+    msginput(val) {
       console.log(val);
     },
-    error () {
+    error() {
       console.log(313);
     },
-    errorCapt () {
+    errorCapt() {
       console.log(665566);
     },
-    successCapt (val) {
-        console.log(val,666);
-        setTimeout(() => {
-          this.captshow = !val
-        }, 1000);
-        
+    successCapt(val) {
+      console.log(val, 666);
+      setTimeout(() => {
+        this.captshow = !val;
+      }, 1000);
     },
     delTree(result) {
       // console.log(result);
@@ -178,12 +210,8 @@ export default {
       }
       console.log(this.active);
     },
-    btnclick() {
-      // console.log(666777);
-    },
-    stepClick(num) {
-      // console.log(num,666);
-    },
+    btnclick() {},
+    stepClick(num) {},
     mysearch(searchVal) {
       // console.log(searchVal, 777);
       let index = this.history.findIndex((item) => {
@@ -197,14 +225,12 @@ export default {
         localStorage.setItem("history", JSON.stringify(this.history));
       }
     },
-    myinput(val) {
-      // console.log(val, 666);
-    },
-    click1() {
-      // console.log(666);
-    },
+    myinput(val) {},
+    click1() {},
   },
-  mounted() {},
+  mounted() {
+  
+  },
   created() {},
 };
 </script>

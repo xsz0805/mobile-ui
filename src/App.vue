@@ -7,6 +7,12 @@
 <style  lang="less">
 body,html {
   padding: 10px;
+  // width: 100%;
+  // height: 100%;
   
+}
+#app {
+  height: 100%;
+  width: 100%;
 }
 </style>

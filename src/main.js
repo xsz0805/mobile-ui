@@ -17,6 +17,9 @@ import mypoints from '@/components/my-captcha/my-points'
 import mycompute from '@/components/my-captcha/my-compute'
 import myslide from '@/components/my-captcha/my-slide'
 import mymessage from '@/components/my-captcha/my-message'
+import myscan from '@/components/my-scan/my-scan'
+import myupload from '@/components/my-upload/my-upload'
+import mycode from '@/components/my-captcha/my-code'
 // import 'lib-flexible/flexible'
 import "amfe-flexible";
 import Vant from 'vant';
@@ -41,6 +44,9 @@ Vue.component('mypoints', mypoints)
 Vue.component('mycompute', mycompute)
 Vue.component('myslide', myslide)
 Vue.component('mymessage', mymessage)
+Vue.component('myscan', myscan)
+Vue.component('myupload', myupload)
+Vue.component('mycode', mycode)
 
 new Vue({
   router,

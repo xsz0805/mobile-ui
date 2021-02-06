@@ -312,3 +312,22 @@ msginput   触发输入事件       回调参数   val  输入框的值
 ```js
 send       发送验证码         回调参数   code   输入框的值
 ```
+
+# 扫一扫   myScan
+
+```html
+ <myscan type='ipt' v-model='value'></myscan>
+```
+## Attributes
+```js
+type    扫一扫控件模式  type = 'ipt' or type = 'btn'      Default   'ipt'   
+```
+
+## Props 
+```js
+v-model      当前输入框的值  
+```
+## Events
+```js
+scanClick    点击扫一扫图标回调函数   
+```
