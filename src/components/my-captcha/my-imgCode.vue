@@ -1,6 +1,6 @@
 <template>
   <div class="s-canvas">
-    <canvas id="s-canvas"  width="120" height="40"></canvas>
+    <canvas id="s-canvas"  width="85" height="32"></canvas>
   </div>
 </template>
 <script>
@@ -52,11 +52,11 @@ export default {
     },
     contentWidth: {
       type: Number,
-      default: 120,
+      default: 85,
     },
     contentHeight: {
       type: Number,
-      default: 40,
+      default: 32,
     },
   },
   data() {

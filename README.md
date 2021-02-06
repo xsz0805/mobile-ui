@@ -312,7 +312,19 @@ msginput   触发输入事件       回调参数   val  输入框的值
 ```js
 send       发送验证码         回调参数   code   输入框的值
 ```
-
+## 数字图片验证码
+```html
+<mycode v-model="codeValue" @codeSubmit='codeSubmit'></mycode>
+```
+## Props
+```js
+v-model   当前输入的值      
+```
+## Events
+```js
+codeSubmit    点击提交验证的回调函数
+```
+ 
 # 扫一扫   myScan
 
 ```html
@@ -331,3 +343,4 @@ v-model      当前输入框的值
 ```js
 scanClick    点击扫一扫图标回调函数   
 ```
+

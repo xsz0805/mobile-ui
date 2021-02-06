@@ -90,14 +90,13 @@
     <!-- 选字验证 -->
     <!-- <mypoints></mypoints> -->
     <!-- 选字验证 -->
-    <mycode></mycode>
+    <mycode v-model="codeValue" @codeSubmit='codeSubmit'></mycode>
+    {{codeValue}}
   </div>
 </template>   
            
 <script>
-
 export default {
- 
   watch: {
     value(val) {
       console.log(val);
@@ -106,7 +105,7 @@ export default {
 
   data() {
     return {
-     
+      codeValue: "",
       info: {},
       iptval: "",
       captshow: true,
@@ -160,7 +159,9 @@ export default {
     };
   },
   methods: {
-  
+    codeSubmit() {
+      console.log(666);
+    },
     editItem(data) {
       console.log(data, 666);
     },
@@ -228,9 +229,7 @@ export default {
     myinput(val) {},
     click1() {},
   },
-  mounted() {
-  
-  },
+  mounted() {},
   created() {},
 };
 </script>
