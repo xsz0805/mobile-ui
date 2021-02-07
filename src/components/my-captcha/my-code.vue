@@ -40,9 +40,10 @@ export default {
     codeBtnClick() {
       if (this.codeValue == this.code.toLowerCase()) {
           Toast.success('验证成功');
-          this.$emit('codeSubmit')
+          this.$emit('codeSubmitSuccess')
       }else {
         Toast.fail('验证失败,请重试');
+        this.$emit('codeSubmitError')
         this.refreshCode()
         this.codeValue = ''
       }

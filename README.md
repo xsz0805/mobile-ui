@@ -1,7 +1,7 @@
 # sh_mobile_ui
 
 # 基于Vant-ui封装的简单组件
-##  版本更新至  0.2.6
+##  版本更新至  0.2.7
 ## 安装
 ```js
 集成 Vant@2.12.6  无需重复install vant 
@@ -342,5 +342,19 @@ v-model      当前输入框的值
 ## Events
 ```js
 scanClick    点击扫一扫图标回调函数   
+```
+
+# 身份证上传
+
+```html
+<myupload @upload='upload' v-model='info'></myupload>
+```
+## Props 
+```js
+v-model      当前输入框的值  
+```
+## Events
+```js
+upload    点击点击上传回调函数      回调参数  (result,formData)    result:'图片信息'  formData:'输入框的值'
 ```
 

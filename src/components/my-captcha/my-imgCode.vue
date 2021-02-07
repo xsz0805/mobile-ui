@@ -5,7 +5,7 @@
 </template>
 <script>
 export default {
-  name: "SIdentify",
+  name: "myimgcode",
   props: {
     fresh: {
         default:true

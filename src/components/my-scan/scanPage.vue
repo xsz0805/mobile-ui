@@ -1,6 +1,6 @@
 <template>
   <div class="sancPage">
-    <van-nav-bar title="标题" left-text="返回" right-text="按钮" left-arrow @click-left="onClickLeft" @click-right="onClickRight" />
+    <!-- <van-nav-bar title="标题" left-text="返回" right-text="按钮" left-arrow @click-left="onClickLeft" @click-right="onClickRight" /> -->
     <div class="scan">
       <div id="bcid">
         <div style="height:40%"></div>
@@ -13,6 +13,11 @@
 <script>
 let scan = null;
 export default {
+  props:{
+    ffun:{
+
+    }
+  },
   data() {
     return {
       codeUrl: "",
@@ -20,8 +25,13 @@ export default {
   },
   mounted() {
     this.startRecognize();
+   
   },
   methods: {
+    
+    clickcloseicon () {
+      console.log(777);
+    },
     onClickRight() {},
 
     onClickLeft() {
@@ -86,7 +96,7 @@ export default {
     position: absolute;
     left: 0;
     right: 0;
-    top: 2rem;
+    top: 1rem;
     bottom: 0rem;
     text-align: center;
     color: #fff;

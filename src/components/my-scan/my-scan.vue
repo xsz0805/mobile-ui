@@ -4,36 +4,50 @@
       <input class="myscan" type="text" placeholder="请输入" v-model="sonval" @input="soninput">
       <button class="scan_search" @click="myScanClick"></button>    
     </div>  
-    <div  v-if='type=="btn"' class="myScanMain_search">
+    <div v-if='type=="btn"' class="myScanMain_search">
       <button class="scanBtn" @click="myScanClick"></button>
     </div> 
+    <van-popup v-model="show" @click-close-icon='clickcloseicon ' position="left" :style="{ height: '100%',width:'100%' }"  closeable  close-icon-position='top-right'>
+    <scanpage ref='son' :ffun='clickcloseicon'></scanpage>
+    </van-popup>
   </div>
-</template>
+</template> 
            
 <script>
+import scanpage from "./scanPage";
 export default {
   name: "myscan",
-  props:{
-      
-      type:{
-          type:String,
-          default:'ipt'
-      }
+  
+  props: {
+    type: {
+      type: String,
+      default: "ipt",
+    },
+  },
+  components: {
+    scanpage,
   },
   data() {
     return {
-     
-      sonval:'',
+      closeScan:'',
+      flag: false,
+      sonval: "",
+      show:false
     };
   },
   methods: {
-    soninput () {
-        this.$emit('input',this.sonval)
+    clickcloseicon () {
+        console.log(666);
+        this.$refs.son.clickcloseicon()     
+    },
+    soninput() {
+      this.$emit("input", this.sonval);
     },
     myScanClick() {
-    //   console.log(666);
-    this.$emit('scanClick')
-      this.$router.push("/scanPage");
+      //   console.log(666);
+      this.$emit('scanClick')
+        // this.$router.push({url:'./scanPage.vue'});
+      this.show = true;
     },
   },
 };

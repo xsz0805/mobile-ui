@@ -7,7 +7,7 @@
     <div class="cerify-code-panel">
       <div class="verify-code-area">
         <div class="verify-input-area">
-          <input type="text" v-model="inputValue" @change="iptchange" placeholder="请输入" class="varify-input-code" style="width:110%" />
+          <input type="text" v-model="inputValue" @change="iptchange" placeholder="请输入" class="varify-input-code"  />
         </div>
       </div>
       <div class="verify-code" @click="setCode" :style="{
@@ -24,8 +24,10 @@
         </span>
 
       </div>
+       <div class="submit">
+        <button class="codeBtn" @click='codeSubmitBtn'>提交</button>
+      </div>
       <!-- <div class="verify-change-area" @click="setCode"><a class="verify-change-code">换一张</a></div> -->
-
     </div>
   </div>
 </template>
@@ -39,12 +41,12 @@ export default {
       type: String,
       default: "2",
     },
-    //位数，仅在type=2时生效
+  
     figure: {
       type: Number,
       default: 100,
     },
-    //算法，支持加减乘，0为随机，仅在type=2时生效
+    
     arith: {
       type: Number,
       default: 0,
@@ -86,10 +88,7 @@ export default {
       this.$parent.$emit("ready", this);
     },
 
-    /**
-     * setCode
-     * @description 设置验证码
-     * */
+   
     setCode() {
       if (this.isEnd == false) {
         this.containerBackgroundColor =
@@ -127,6 +126,8 @@ export default {
 
           if (this.arith == 0) {
             var tmparith = Math.floor(Math.random() * 3);
+          }else {
+            var tmparith = this.arith
           }
 
           switch (tmparith) {
@@ -153,12 +154,11 @@ export default {
         }
       }
     },
-    /**
-     * checkCode
-     * @description 验证验证码
-     * */
-    iptchange() {
+   codeSubmitBtn () {
       this.checkCode();
+   },
+    iptchange() {
+      // this.checkCode();
     },
     checkCode() {
       let inputValue;
@@ -221,6 +221,19 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.submit {
+    margin-top: 0.3rem;
+    // margin-right: auto;
+    .codeBtn {
+      width: 3rem;
+      height: 0.88rem;
+      background-color: #198ff9;
+      color: #feffff;
+      border: none;
+      border-radius: 0.1rem;
+      font-size: 0.3rem;
+    }
+  }
 .countTitle {
   font-size: 0.2rem;
   display: flex;
@@ -228,30 +241,40 @@ export default {
   margin-bottom: 10px;
   height: 10px;
   line-height: 10px;
+  // flex-wrap: wrap;
 }
 
 .cerify-code-panel {
   display: flex;
-  justify-content: space-between;
+  justify-content: left;
   align-items: center;
+   flex-wrap: wrap;
 
   .verify-code-area {
-    margin-right: 5px;
-    width: 200px;
-
-    .varify-input-code {
-      box-sizing: border-box;
-      border-radius: 0.2rem;
-      border: 1px solid #b3b3b3;
-      color: #b3b3b3;
-      font-size: 0.3rem;
-      height: 0.7rem;
-      padding: 0 10px;
-      vertical-align: middle;
+    // margin-right: 5px;
+    width:4.54rem;
+    .verify-input-area {
+        width: 100%;
+      .varify-input-code {
+        display: block;
+        width: 100%;
+        height: 0.88rem;
+        box-sizing: border-box;
+        border-radius: 0.2rem;
+        border: 1px solid #b3b3b3;
+        color: #b3b3b3;
+        font-size: 0.3rem;
+        height: 0.7rem;
+        padding: 0 10px;
+       
+      }
     }
+
   }
   .verify-code {
+    // flex: 50%;
     text-align: center;
+    margin-left: 0.16rem;
   }
 }
 </style>

@@ -2,19 +2,20 @@
   <div class="login-container">
 
     <van-form @submit="onSubmit">
-
-      <van-field @input='msginput' v-model="code"  name='code' type="text" placeholder="请填写验证码" :rules="rules.code">
-
+      <van-field @input='msginput' v-model="code" name='code' type="text" placeholder="请填写" :rules="rules.code">
         <template #button>
           <van-button @click="getCode" @click.stop='clicksend' v-if='flag' size="small" plain type="info">发送验证码</van-button>
           <van-count-down @finish='finish' v-else :time="time" format="ss (s)" />
         </template>
       </van-field>
-
+      <div class="submit">
+        <button class="codeBtn" @click='msgCodeBtn'>提交</button>
+      </div>
     </van-form>
   </div>
 </template>          
 <script>
+import { Toast } from 'vant';
 export default {
   name: "mymessage",
   data() {
@@ -27,17 +28,21 @@ export default {
       rules: {
         code: [
           { required: true, message: "请填写验证码" },
-          { pattern: /\d{6}/, message: "请填写验证码222222" },
+          { pattern: /\d{6}/, message: "请填写六位数验证码" },
         ],
       },
     };
   },
   methods: {
+    msgCodeBtn (){
+        if (!this.code) return  Toast('请填写验证码');
+    },
     msginput(val) {
       this.$emit("msginput", val);
     },
     onSubmit(values) {
       console.log("submit", values);
+      this.$emit('msgSubmit')
     },
 
     clicksend() {
@@ -72,10 +77,15 @@ export default {
   background-color: #d6d6d6;
 }
 /deep/.van-field__control {
+  width: 4.54rem;
   border: 1px solid #d6d6d6;
   height: 0.8rem;
   border-radius: 0.2rem;
   padding: 0 5px;
+}
+/deep/.van-field__button {
+  margin-left: 0.16rem;
+  padding: 0;
 }
 .login-container {
   margin-bottom: 20px;
@@ -89,4 +99,20 @@ export default {
     }
   }
 }
+.van-cell {
+  padding: 0;
+}
+.submit {
+    margin-top: 0.3rem;
+    // margin-right: auto;
+    .codeBtn {
+      width: 3rem;
+      height: 0.88rem;
+      background-color: #198ff9;
+      color: #feffff;
+      border: none;
+      border-radius: 0.1rem;
+      font-size: 0.3rem;
+    }
+  }
 </style>

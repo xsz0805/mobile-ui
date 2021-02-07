@@ -90,7 +90,8 @@
     <!-- 选字验证 -->
     <!-- <mypoints></mypoints> -->
     <!-- 选字验证 -->
-    <mycode v-model="codeValue" @codeSubmit='codeSubmit'></mycode>
+    <!-- 图片字母数字 验证码 -->
+    <mycode v-model="codeValue" @codeSubmitSuccess='codeSubmit' @codeSubmitError='codeSubmitError'></mycode>
     {{codeValue}}
   </div>
 </template>   
@@ -159,6 +160,9 @@ export default {
     };
   },
   methods: {
+    codeSubmitError () {
+      console.log(112111);
+    },
     codeSubmit() {
       console.log(666);
     },
