@@ -35,8 +35,6 @@
 
     </div>
 
-
-
     <!-- 选字验证码 -->
     <div style="position: relative" v-else @mouseover="mode === 'pop'?(showImage = true):undefined" @mouseout="mode === 'pop'?(showImage = false):undefined">
       <div class="point_title" style="z-index:3" v-show="showRefresh">
@@ -106,13 +104,13 @@ function getOffset(Node, offset = { top: 0, left: 0 }) {
 export default {
   name: "mycaptcha",
   props: {
-     visible:{
-       type:[Boolean,String],
-       default:false,
-     },
-    show:{
-      type:[Boolean,String],
-      default: false
+    visible: {
+      type: [Boolean, String],
+      default: false,
+    },
+    show: {
+      type: [Boolean, String],
+      default: false,
     },
     //弹出式pop，固定fixed
     mode: {
@@ -168,7 +166,7 @@ export default {
       status: false,
       statusFlag: false,
       successText: "验证成功",
-    
+
       fontPos: [], // 选中的坐标信息
       checkPosArr: [], //用户点击的坐标
       num: 1, //点击的记数
@@ -187,7 +185,7 @@ export default {
       showRefresh: true,
       bindingClick: true,
       flag: true,
-     
+
       cv: {
         w: 310,
         h: 200,
@@ -274,7 +272,7 @@ export default {
             }, 2000);
           } else {
             //验证成功
-            this.successText = "验证成功"
+            this.successText = "验证成功";
             this.statusFlag = true;
             this.status = false;
             this.barAreaColor = "#4cae4c";
@@ -285,7 +283,7 @@ export default {
             // setTimeout(() => {
             //   this.show = false
             // }, 2000);
-            this.$emit("success",this.show);
+            this.$emit("success", this.show);
           }
         }, 400);
       }
@@ -297,7 +295,7 @@ export default {
     //绘制合成的图片
     drawImg: function (obj, img) {
       //准备canvas环境
-      if (!this.show || this.visible) return
+      if (!this.show || this.visible) return;
       var canvas = this.$refs.canvas;
       var ctx = canvas.getContext("2d");
 
@@ -466,14 +464,14 @@ export default {
     },
     onSuccess() {
       Toast.success("验证成功");
-      this.$emit('success',this.show)
+      this.$emit("success", this.show);
       // setTimeout(() => {
       //   this.show = false;
       // }, 2000);
     },
     onFail() {
       Toast.fail("验证失败,请重试");
-      this.$emit('error')
+      this.$emit("error");
     },
     bindEvents() {
       this.el.onselectstart = () => false;

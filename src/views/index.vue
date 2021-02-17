@@ -3,6 +3,10 @@
   <div>
 
     <div>
+      <!-- 地图 -->
+      <mymap></mymap>
+      <!-- 地图 -->
+
       <!-- 上传 -->
       <myupload @upload='upload' v-model='info'></myupload>{{info}}
       <!-- 上传 -->
