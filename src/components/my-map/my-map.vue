@@ -1,29 +1,38 @@
 <template>
       <div class="myMap">
     <van-nav-bar title="地图" left-arrow @click-left="onClickLeft" />
-        <van-search shape='round' left-icon='' v-model="value" placeholder="请输入搜索内容" @search="onSearch(value)" @input="oninput (value)">
+        <van-search id='address' ref="searchIpt" @blur='blur' @focus='focus' :show-action='action' shape='round' @cancel='searchAbolish' left-icon='search' v-model="valueAddress" placeholder="请输入搜索内容"
+      @search="onSearch()" @input="oninput ()">
       <template slot='left'>
-        <div @click="citySelect(value)" class="chooseCity">
-          武汉市
+        <div @click="citySelect(valueAddress)" class="chooseCity">
+          {{city.name ? city.name : '武汉市'}}
           <img src='../../assets/map/arrow_down.png' alt="">
         </div>
       </template>
     </van-search>   
          <div id="container"></div>
-    <button id="pantoBtn" @click='markerFocus'>
+    <button id="pantoBtn" class="mapbtn" @click='markerFocus'>
       <img src="../../assets/map/map_current.png" alt="">
     </button>
+    <button id="navigation" class="mapbtn" @click='navigationBtn'>
+      <img src="../../assets/map/map_navigation.png" alt="">
+    </button>
+    <button id="refurbish" class="mapbtn">
+      <img src="../../assets/map/map_refresh.png" alt="">
+    </button>
       
-    <van-popup v-model="show" position="top" :style="{ height: '30%' }">  
-      <van-area title="标题" :area-list="areaList" :columns-num="2" />
+    <van-popup v-model="show" position="top" :style="{ height: '50%' }">  
+      <van-area title="标题" :area-list="areaList" :columns-num="2" @confirm='addressComplate' @cancel='cancel' />
     </van-popup>
   </div>
 </template>
            
 <script>
+import { Toast } from "vant";
 export default {
   data() {
     return {
+      action: false,
       areaList: {
         province_list: {
           110000: "北京市",
@@ -434,20 +443,101 @@ export default {
         },
       },
       show: false,
-      value: "",
+      valueAddress: "",
       map: null,
       position: {},
       lat: "",
       lng: "",
       marker: "",
+      marker1: "",
+      markerIcon1:require('../../assets/map/map_position.png'),
       markerIcon: require("../../assets/map/map_my_address.png"),
       startIcon: "",
+      startIcon1: "",
+      city: "",
+      driving: "",
     };
   },
+  // computed:{
+  //   initCity () {
+  //     return this.city.name
+  //   }
+  // },
   methods: {
+    navigationBtn() {
+      this.navigation();
+    },
+    navigation() {
+      this.driving = new AMap.Driving({
+        map: this.map,
+        // panel: "panel",
+      });
+      this.driving.search(
+        [
+          { keyword: "武汉市江汉路地铁站" },
+          { keyword: "武汉市江汉北路公交站" },
+        ],
+        function (status, result) {
+          // result 即是对应的驾车导航信息，相关数据结构文档请参考  https://lbs.amap.com/api/javascript-api/reference/route-search#m_DrivingResult
+          if (status === "complete") {
+          } else {
+          }
+        }
+      );
+    },
+    geoCode() {
+      var geocoder = new AMap.Geocoder({
+        //默认：“全国”
+        city: this.city.name ? this.city.name : "武汉市",
+      });
+      var that = this;
+      this.marker1 = new AMap.Marker({
+         icon: this.startIcon1,
+        extData :{class:'iccc'}
+      });
+      var address =
+        // (this.city.name ? this.city.name : "武汉市") +
+        document.getElementById("address").value;
+      console.log(address);
+      geocoder.getLocation(address, function (status, result) {
+        if (status === "complete" && result.geocodes.length) {
+          var lnglat = result.geocodes[0].location;
+          // console.log(marker);
+          //  that.map.remove(marker);
+          
+          that.marker1.setPosition(lnglat);
+          that.map.add(that.marker1);
+          that.map.setFitView(that.marker1);
+        } else {
+          if (!that.valueAddress) return;
+          Toast.fail("请重新设置城市");
+        }
+      });
+    },
+    blur() {
+      this.action = false;
+      this.map.remove(this.marker1);
+      this.geoCode();
+    },
+    focus() {
+      this.action = true;
+    },
+    oninput() {},
+    onSearch() {},
+    searchAbolish() {
+      this.action = false;
+    },
+    cancel() {
+      this.show = false;
+    },
+    addressComplate(city) {
+      console.log(city);
+      this.show = false;
+      this.city = city[1];
+    },
     citySelect() {
       console.log(666);
-      this.show = true
+      this.show = true;
     },
     onClickLeft() {},
     createIcon() {
@@ -462,8 +552,20 @@ export default {
         // imageOffset: new AMap.Pixel(-9, -3),
       });
     },
+    createIcon1() {
+      this.startIcon1 = new AMap.Icon({
+        // 图标尺寸
+        // size: new AMap.Size(25, 34),
+        // 图标的取图地址
+        image: this.markerIcon1,
+        // 图标所用图片大小
+        // imageSize: new AMap.Size(135, 40),
+        // 图标取图偏移量
+        // imageOffset: new AMap.Pixel(-9, -3),
+      });
+    },
     markerFocus() {
-      this.map.setFitView();
+      this.map.setFitView(this.marker);
     },
     initMap(a = 114.06038, b = 30.62933, c = 11) {
       this.map = new AMap.Map("container", {
@@ -474,6 +576,10 @@ export default {
       this.map.on("click", function (e) {
         console.log(e);
         // document.getElementById("lnglat").value = e.lnglat.getLng() + ',' + e.lnglat.getLat()
+      });
+      AMap.plugin(["AMap.ToolBar"],  () => {
+        // 在图面添加工具条控件, 工具条控件只有缩放功能
+        this.map.addControl(new AMap.ToolBar());
       });
     },
     getLocation() {
@@ -497,6 +603,7 @@ export default {
           console.log(_this.lat, _this.lng);
           _this.marker = new AMap.Marker({
             icon: _this.startIcon,
+            autoRotation:true,
             position: [_this.lng, _this.lat],
           });
           _this.map.add(_this.marker);
@@ -526,6 +633,7 @@ export default {
   mounted() {
     this.initMap();
     this.createIcon();
+    this.createIcon1();
     this.getLocation();
   },
 };
@@ -542,17 +650,26 @@ export default {
 }
 .myMap {
   position: relative;
-  #pantoBtn {
+  .mapbtn {
     border: none;
     background: none;
 
     position: absolute;
     right: 0;
-    bottom: 0.4rem;
+
     img {
       height: 1.12rem;
       width: 0.72rem;
     }
+  }
+  #pantoBtn {
+    bottom: 3.44rem;
+  }
+  #navigation {
+    bottom: 1.95rem;
+  }
+  #refurbish {
+    bottom: 0.4rem;
   }
   .amap-icon {
     width: 0.6rem;
@@ -562,6 +679,9 @@ export default {
 #container {
   width: 100%;
   height: 600px;
+}
+/deep/.amap-zoomcontrol {
+  left:-260px;
 }
 // .van-search__content,
 // .van-search__,
@@ -578,5 +698,11 @@ export default {
 //   border-radius: 0.5rem;
 //   margin-left: 0.16rem;
 //   color: white;
+// }
+// /deep/.amap-lib-marker-from {
+//   width: 0.44rem;
+//   height: 0.5rem;
+
+//     background-image: url('../../assets/map/map_starting_point.png');
 // }
 </style>

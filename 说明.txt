@@ -1,0 +1,20 @@
+npm  路径设置
+npm config set registry http://192.168.1.73:4873/
+
+基于Vant-ui封装的简单组件
+  版本更新至  0.2.7
+ 安装
+
+集成 Vant@2.12.6  无需重复install vant 
+
+
+npm  i  sh_mobile    
+
+
+main.js  导入
+
+import  sh_mobile from 'sh_mobile'
+import  Vant from 'vant'
+import 'vant/lib/index.css'
+Vue.use(Vant);
+Vue.use(sh_mobile); 

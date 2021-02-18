@@ -3,6 +3,8 @@
   <div>
 
     <div>
+     
+
       <!-- 地图 -->
       <mymap></mymap>
       <!-- 地图 -->
@@ -101,7 +103,9 @@
 </template>   
            
 <script>
+
 export default {
+  
   watch: {
     value(val) {
       console.log(val);
