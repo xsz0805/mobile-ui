@@ -1,6 +1,7 @@
 <template>
       <div class="myMap">
     <van-nav-bar title="地图" left-arrow @click-left="onClickLeft" />
+    {{address}} 11231231
         <van-search id='address' ref="searchIpt" @blur='blur' @focus='focus' :show-action='action' shape='round' @cancel='searchAbolish' left-icon='search' v-model="valueAddress" placeholder="请输入搜索内容"
       @search="onSearch()" @input="oninput ()">
       <template slot='left'>
@@ -450,12 +451,15 @@ export default {
       lng: "",
       marker: "",
       marker1: "",
-      markerIcon1:require('../../assets/map/map_position.png'),
+      markerIcon1: require("../../assets/map/map_position.png"),
       markerIcon: require("../../assets/map/map_my_address.png"),
       startIcon: "",
       startIcon1: "",
       city: "",
       driving: "",
+      infoWindow: "",
+      lnglat: "",
+      address:'',
     };
   },
   // computed:{
@@ -464,6 +468,45 @@ export default {
   //   }
   // },
   methods: {
+    createInfoWindow(title, content) {
+      var info = document.createElement("div");
+      info.className = "custom-info input-card content-window-card";
+
+      //可以通过下面的方式修改自定义窗体的宽高
+      //info.style.width = "400px";
+      // 定义顶部标题
+      var top = document.createElement("div");
+      var titleD = document.createElement("div");
+      var closeX = document.createElement("img");
+      top.className = "info-top";
+      titleD.innerHTML = title;
+      closeX.src = "https://webapi.amap.com/images/close2.gif";
+      closeX.onclick = closeInfoWindow;
+
+      top.appendChild(titleD);
+      top.appendChild(closeX);
+      info.appendChild(top);
+
+      // 定义中部内容
+      var middle = document.createElement("div");
+      middle.className = "info-middle";
+      middle.style.backgroundColor = "white";
+      middle.innerHTML = content;
+      info.appendChild(middle);
+
+      // 定义底部内容
+      var bottom = document.createElement("div");
+      bottom.className = "info-bottom";
+      bottom.style.position = "relative";
+      bottom.style.top = "0px";
+      bottom.style.margin = "0 auto";
+      var sharp = document.createElement("img");
+      sharp.src = "https://webapi.amap.com/images/sharp.png";
+      bottom.appendChild(sharp);
+      info.appendChild(bottom);
+      return info;
+    },
+
     navigationBtn() {
       this.navigation();
     },
@@ -478,7 +521,6 @@ export default {
           { keyword: "武汉市江汉北路公交站" },
         ],
         function (status, result) {
-          // result 即是对应的驾车导航信息，相关数据结构文档请参考  https://lbs.amap.com/api/javascript-api/reference/route-search#m_DrivingResult
           if (status === "complete") {
           } else {
           }
@@ -492,9 +534,21 @@ export default {
       });
       var that = this;
       this.marker1 = new AMap.Marker({
-         icon: this.startIcon1,
-        extData :{class:'iccc'}
+        icon: this.startIcon1,
       });
+      this.infoWindow = new AMap.InfoWindow({
+        // isCustom: true, //使用自定义窗体
+        anchor: "bottom-center",
+        // content: `<div style="height:0.56rem;background-color:white;line-height:0.56rem;padding:0 0.16rem;box-shadow:0 5px 10px 0;font-size:0.24rem;border-radius:0.1rem;">123123</div>`,
+        content:'121',
+        offset: new AMap.Pixel(-2, -36),
+      });
+      AMap.event.addListener(this.marker1, "click", (e) => {
+        // console.log(e);
+
+        this.infoWindow.open(this.map, this.marker1.getPosition());
+      });
+
       var address =
         // (this.city.name ? this.city.name : "武汉市") +
         document.getElementById("address").value;
@@ -502,15 +556,28 @@ export default {
       geocoder.getLocation(address, function (status, result) {
         if (status === "complete" && result.geocodes.length) {
           var lnglat = result.geocodes[0].location;
+          // console.log(lnglat);
           // console.log(marker);
           //  that.map.remove(marker);
-          
+          that.lnglat = lnglat;
+          // console.log(that.lnglat);
           that.marker1.setPosition(lnglat);
           that.map.add(that.marker1);
           that.map.setFitView(that.marker1);
         } else {
           if (!that.valueAddress) return;
           Toast.fail("请重新设置城市");
+        }
+      });
+
+      geocoder.getAddress(this.lnglat, (status, result) => {
+        if (status === "complete" && result.regeocode) {
+          console.log(result.regeocode.formattedAddress);
+          this.address = result.regeocode.formattedAddress;
+          // document.getElementById("address").value = address;
+            this.infoWindow.setContent(result.regeocode.formattedAddress)
+        } else {
+          // log.error("根据经纬度查询地址失败");
         }
       });
     },
@@ -555,7 +622,7 @@ export default {
     createIcon1() {
       this.startIcon1 = new AMap.Icon({
         // 图标尺寸
-        // size: new AMap.Size(25, 34),
+        size: new AMap.Size(15, 25),
         // 图标的取图地址
         image: this.markerIcon1,
         // 图标所用图片大小
@@ -574,10 +641,10 @@ export default {
         // center: [a, b], //初始化地图中心点
       });
       this.map.on("click", function (e) {
-        console.log(e);
+        // console.log(e);
         // document.getElementById("lnglat").value = e.lnglat.getLng() + ',' + e.lnglat.getLat()
       });
-      AMap.plugin(["AMap.ToolBar"],  () => {
+      AMap.plugin(["AMap.ToolBar"], () => {
         // 在图面添加工具条控件, 工具条控件只有缩放功能
         this.map.addControl(new AMap.ToolBar());
       });
@@ -603,7 +670,7 @@ export default {
           console.log(_this.lat, _this.lng);
           _this.marker = new AMap.Marker({
             icon: _this.startIcon,
-            autoRotation:true,
+            autoRotation: true,
             position: [_this.lng, _this.lat],
           });
           _this.map.add(_this.marker);
@@ -681,7 +748,7 @@ export default {
   height: 600px;
 }
 /deep/.amap-zoomcontrol {
-  left:-260px;
+  left: -260px;
 }
 // .van-search__content,
 // .van-search__,

@@ -451,7 +451,7 @@ export default {
 };
 </script>
 
-<style lang="less">
+<style scoped lang="less">
 .search {
   margin-bottom: 20px;
   position: relative;

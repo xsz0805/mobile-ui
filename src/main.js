@@ -22,7 +22,7 @@ import myupload from '@/components/my-upload/my-upload'
 import mycode from '@/components/my-captcha/my-code'
 import mymap from '@/components/my-map/my-map'
 import dingwei from '@/components/my-map/dingwei'
-import yourMap from '@/components/my-map/Map.vue'
+// import yourMap from '@/components/my-map/Map.vue'
 // import 'lib-flexible/flexible'
 import "amfe-flexible";
 import Vant from 'vant';
@@ -52,7 +52,7 @@ Vue.component('myupload', myupload)
 Vue.component('mycode', mycode)
 Vue.component('mymap', mymap)
 Vue.component('dingwei', dingwei)
-Vue.component('yourMap', yourMap)
+// Vue.component('yourMap', yourMap)
 
 new Vue({
   router,

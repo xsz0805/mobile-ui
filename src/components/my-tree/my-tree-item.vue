@@ -129,7 +129,7 @@ body {
   line-height: 1.3rem;
 }
 .item {
-  cursor: pointer;
+  // cursor: pointer;
   border-bottom: solid 1px #f4f4f4;
   list-style: none;
 }
