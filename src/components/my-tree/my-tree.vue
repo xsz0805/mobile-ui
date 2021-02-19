@@ -192,7 +192,9 @@ export default {
       }
     },
 
-    onClickLeft() {},
+    onClickLeft() {
+      this.$router.back()
+    },
     //显示编辑按钮
     onClickRight() {
       this.$emit("rightEdit", this.edit);

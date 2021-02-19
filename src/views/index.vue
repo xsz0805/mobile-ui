@@ -3,109 +3,145 @@
   <div>
 
     <div>
-     
+      <van-nav-bar title="移动端组件示例" />
+      <van-tabs animated swipeable @change='tabschange'>
+        <van-tab title="button and badge">
+          <mybadge count="666">
+            <my-button>按钮</my-button>
+          </mybadge>
+          <mybadge count="666">
+            <my-button>按钮</my-button>
+          </mybadge>
+          <!-- 自定义徽标图片  slot='contentImg'-->
+          <mybadge>
+            <my-button @click='btnclick'>按钮</my-button>
+            <template slot="contentImg"><img src="../assets/badge_icon.png" alt="" /></template>
+          </mybadge>
+          <mybadge>
+            <my-button>按钮</my-button>
+            <template slot="contentImg"><img src="../assets/badge_dot.png" alt="" /></template>
+          </mybadge>
+          <!-- 文字徽标 自定义图片 -->
+          <mybadge>
+            这是文字
+            <template slot="contentImg"><img src="../assets/badge_dot.png" alt="" /></template>
+          </mybadge>
+          <!-- 文字徽标   数字 -->
+          <mybadge count="1"> 这是文字 </mybadge>
 
-      <!-- 地图 -->
-      <mymap></mymap>
-      <!-- 地图 -->
+          <!-- 图标徽标 -->
+          <mybadge count="123">
+            <myicon>111</myicon>
+          </mybadge>
 
-      <!-- 上传 -->
-      <myupload @upload='upload' v-model='info'></myupload>{{info}}
-      <!-- 上传 -->
-      <!-- 扫一扫 -->
-      <myscan v-model="iptval" type='ipt' @scanClick='scanClick'></myscan>{{iptval}}
-      <!-- 扫一扫 -->
-      <!-- 短信验证码 -->
-      <mymessage @msginput='msginput' @send='send'></mymessage>
-      <!-- 短信验证码 -->
-      <!-- 运算验证码 -->
-      <mycompute @success='success' @error='error'></mycompute>
-      <!-- 运算验证码 -->
+          <!-- 自定义图标内容 徽标   -->
+          <mybadge>
+            <myicon><template slot="coustom">111</template></myicon>
+            <template slot="contentImg"><img src="../assets/badge_icon.png" alt="" /></template>
+          </mybadge>
+        </van-tab>
+        <van-tab title="search">
+          <!-- 搜索框 -->
+          <!-- 默认样式 -->
+          <!--v-model 双向数据绑定    input  输入事件 val 回调参数 当前输入框值  onsearch 搜索点击事件   searchVal 回调参数 当前输入框的值   Attr : history  搜索历史  type []  -->
+          <mysearch v-model="value" @input='myinput' @onsearch='mysearch' :history='history'> </mysearch>
+
+          <!-- 热搜样式     Attr  hotStyle  type  boolean  default  false-->
+          <mysearch hotStyle='true' :history='history'> </mysearch>
+          <!-- 搜索框 -->
+        </van-tab>
+        <van-tab title="step">
+          <!-- 步骤条 -->
+          <mystep @stepClick='stepClick' :stepList='stepList' :active='active'></mystep>
+          <my-button @click='next'>下一步</my-button>
+          <!-- 步骤条 -->
+        </van-tab>
+        <van-tab title="tree">
+          <button @click="treeClick" class="treebtn">点击进入树形展示页面</button>
+        </van-tab>
+        <van-tab title="progress">
+          <!-- 进度条 -->
+          <myprogress hook precent='70'></myprogress>
+          <br>
+          <myprogress warn hook precent='100'></myprogress>
+          <br>
+          <myprogress error hook precent='100'></myprogress>
+          <br>
+          <myprogress hook precent='100'></myprogress>
+          <br>
+          <!-- 进度条 -->
+        </van-tab>
+        <van-tab title="circle">
+          <!-- 环形条 -->
+          <mycircle rate='80' modifyColor='skyblue'></mycircle>
+          <mycircle warn></mycircle>
+          <mycircle finish></mycircle>
+          <mycircle error></mycircle>
+          <!-- 环形条 -->
+        </van-tab>
+
+        <van-tab title="upload">
+          <!-- 上传 -->
+          <h3>有输入框</h3>
+          <myupload @upload='upload' v-model='info'></myupload>
+          <h3>无输入框</h3>
+          <myupload @upload='upload' v-model='info' :row='false' :uploadIpt='false'></myupload>
+          <!-- 上传 -->
+        </van-tab>
+        <van-tab title="map">
+          <!-- 地图 -->
+          <mymap></mymap>
+          <!-- 地图 -->
+        </van-tab>
+        <van-tab title="验证码">
+          <!-- 运算验证码 -->
+          <mycompute @success='success' @error='error'></mycompute>
+          <!-- 运算验证码 -->
+          <h5>短信验证码</h5>
+          <!-- 短信验证码 -->
+          <mymessage @msginput='msginput' @send='send'></mymessage>
+          <!-- 短信验证码 -->
+          <h5>图片字母数字验证码</h5>
+          <!-- 图片字母数字 验证码 -->
+          <mycode v-model="codeValue" @codeSubmitSuccess='codeSubmit' @codeSubmitError='codeSubmitError'></mycode>
+        </van-tab>
+        <van-tab title="扫一扫">
+          <button @click="saoClick" class="scanbtn">点击进入扫一扫演示页面</button>
+        </van-tab>
+        <van-tab title="选自验证码">
+          <button @click="captchaClick" class="scanbtn">点击进入验证码演示页面</button>
+        </van-tab>
+        <van-tab title="loading">
+          <button @click="saoClick1" class="scanbtn">点击显示正在加载样式1</button>
+          <button @click="saoClick2" class="scanbtn">点击显示正在加载样式2</button>
+          <button @click="saoClick3" class="scanbtn">点击显示正在加载样式3</button>
+
+        </van-tab>
+      </van-tabs>
+
+      <myloading type=0 :loading='load1'></myloading>
+      <myloading type=1 :loading='load2'></myloading>
+      <myloading type=2 :loading='load3'></myloading>
 
       <!-- 拼图验证 -->
-      <mycaptcha :show='false' @success='successCapt' @error='errorCapt' :visible='false'></mycaptcha>
+      <mycaptcha :show='show1' @success='successCapt' @error='errorCapt' :visible='true'></mycaptcha>
+      <mycaptcha :show='show2' @success='successCapt' @error='errorCapt' :visible='false'></mycaptcha>
+      <button @click="captchabtn">验证码</button>
       <!-- 拼图验证 -->
-
-      <!-- 树形展示组件 -->
-      <mytree :dataTree='dataTree' @rightEdit='rightEdit' @iptTree='iptTree' @editItem='editItem' @success='success' @delTree='delTree'></mytree>
-      <!-- 树形展示组件 -->
-
-      <!-- 徽标 -->
-      <!-- 徽标数 -->
-      <mybadge count="666">
-        <my-button>按钮</my-button>
-      </mybadge>
-      <!-- 自定义徽标图片  slot='contentImg'-->
-      <mybadge>
-        <my-button @click='btnclick'>按钮</my-button>
-        <template slot="contentImg"><img src="../assets/badge_icon.png" alt="" /></template>
-      </mybadge>
-      <mybadge>
-        <my-button>按钮</my-button>
-        <template slot="contentImg"><img src="../assets/badge_dot.png" alt="" /></template>
-      </mybadge>
-      <!-- 文字徽标 自定义图片 -->
-      <mybadge>
-        这是文字
-        <template slot="contentImg"><img src="../assets/badge_dot.png" alt="" /></template>
-      </mybadge>
-      <!-- 文字徽标   数字 -->
-      <mybadge count="1"> 这是文字 </mybadge>
-
-      <!-- 图标徽标 -->
-      <mybadge count="123">
-        <myicon>111</myicon>
-      </mybadge>
-
-      <!-- 自定义图标内容 徽标   -->
-      <mybadge>
-        <myicon><template slot="coustom">111</template></myicon>
-        <template slot="contentImg"><img src="../assets/badge_icon.png" alt="" /></template>
-      </mybadge>
     </div>
-    <!-- 徽标 -->
 
-    <!-- 搜索框 -->
-    <!-- 默认样式 -->
-    <!--v-model 双向数据绑定    input  输入事件 val 回调参数 当前输入框值  onsearch 搜索点击事件   searchVal 回调参数 当前输入框的值   Attr : history  搜索历史  type []  -->
-    <mysearch v-model="value" @input='myinput' @onsearch='mysearch' :history='history'> </mysearch>
-
-    <!-- 热搜样式     Attr  hotStyle  type  boolean  default  false-->
-    <mysearch hotStyle='true'> </mysearch>
-    <!-- 搜索框 -->
-
-    <!-- 步骤条 -->
-    <mystep @stepClick='stepClick' :stepList='stepList' :active='active'></mystep>
-    <my-button @click='next'>下一步</my-button>
-
-    <!-- 步骤条 -->
-
-    <!-- 进度条 -->
-    <myprogress hook precent='100'></myprogress>
-    <!-- 进度条 -->
-    <!-- 环形条 -->
-    <mycircle rate='80'></mycircle>
-    <!-- 环形条 -->
-
-    <!-- 加载 -->
-    <myloading type=2></myloading>
-    <!-- 加载 -->
     <!-- 滑动验证码 -->
     <!-- <myslide  @success='success' @error='error'></myslide> -->
     <!-- 滑动验证码 -->
     <!-- 选字验证 -->
     <!-- <mypoints></mypoints> -->
     <!-- 选字验证 -->
-    <!-- 图片字母数字 验证码 -->
-    <mycode v-model="codeValue" @codeSubmitSuccess='codeSubmit' @codeSubmitError='codeSubmitError'></mycode>
-    {{codeValue}}
+
   </div>
 </template>   
            
 <script>
-
 export default {
-  
   watch: {
     value(val) {
       console.log(val);
@@ -114,6 +150,11 @@ export default {
 
   data() {
     return {
+      show1: false,
+      show2: false,
+      load1: false,
+      load2: false,
+      load3: false,
       codeValue: "",
       info: {},
       iptval: "",
@@ -121,42 +162,7 @@ export default {
       status: false,
       iptValue: "123",
       precent: 100,
-      dataTree: {
-        name: "一级",
-        id: 1,
-        time: +new Date(),
-        children: [
-          { name: "书", id: 2, time: +new Date() },
-          { name: "本", id: 2, time: +new Date() },
-          {
-            name: "二级",
-            id: 2,
-            time: +new Date(),
-            children: [
-              {
-                name: "三级",
-                id: 3,
-                time: +new Date(),
-                children: [
-                  { name: "书3", id: 4, time: +new Date() },
-                  { name: "本3", id: 4, time: +new Date() },
-                ],
-              },
-              { name: "书3", id: 3, time: +new Date() },
-              { name: "本3", id: 3, time: +new Date() },
-              {
-                name: "三级",
-                id: 3,
-                time: +new Date(),
-                children: [
-                  { name: "书3", id: 4, time: +new Date() },
-                  { name: "本3", id: 4, time: +new Date() },
-                ],
-              },
-            ],
-          },
-        ],
-      },
+
       active: 0,
       stepList: [
         { step: "步骤一", synopsis: "简介" },
@@ -168,7 +174,44 @@ export default {
     };
   },
   methods: {
-    codeSubmitError () {
+    captchabtn() {
+      this.show1 = true
+    },
+    captchaClick() {
+      this.$router.push("/captcha");
+    },
+    saoClick1() {
+      this.load1 = true;
+      setTimeout(() => {
+        this.load1 = false;
+      }, 2000);
+    },
+    saoClick2() {
+      this.load2 = true;
+      setTimeout(() => {
+        this.load2 = false;
+      }, 2000);
+    },
+    saoClick3() {
+      this.load3 = true;
+      setTimeout(() => {
+        this.load3 = false;
+      }, 2000);
+    },
+    treeClick() {
+      this.$router.push("/tree");
+    },
+    saoClick() {
+      this.$router.push("/scan");
+    },
+    tabschange() {
+      // // console.log(111);
+      // this.load = true;
+      // setTimeout(() => {
+      //   this.load = false;
+      // }, 1000);
+    },
+    codeSubmitError() {
       console.log(112111);
     },
     codeSubmit() {
@@ -246,6 +289,12 @@ export default {
 };
 </script>
 <style scoped lang='less'>
+.scanbtn {
+  margin-top: 0.8rem;
+}
+.treebtn {
+  margin-top: 0.8rem;
+}
 /deep/img {
   width: 100%;
   height: 100%;

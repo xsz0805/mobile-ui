@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="computeds">
     <div class="countTitle" style="height:10px">
       <span class="Cfl" style="font-size:16px;font-weight:700">运算验证码</span>
       <span class="Crl">tips : 点击验证图片刷新图片</span>
@@ -7,7 +7,7 @@
     <div class="cerify-code-panel">
       <div class="verify-code-area">
         <div class="verify-input-area">
-          <input type="text" v-model="inputValue" @change="iptchange" placeholder="请输入" class="varify-input-code"  />
+          <input type="text" v-model="inputValue" @change="iptchange" placeholder="请输入" class="varify-input-code" />
         </div>
       </div>
       <div class="verify-code" @click="setCode" :style="{
@@ -24,7 +24,7 @@
         </span>
 
       </div>
-       <div class="submit">
+      <div class="submit">
         <button class="codeBtn" @click='codeSubmitBtn'>提交</button>
       </div>
       <!-- <div class="verify-change-area" @click="setCode"><a class="verify-change-code">换一张</a></div> -->
@@ -33,7 +33,7 @@
 </template>
 <script type="text/babel">
 import { _code_chars, _code_color1, _code_color2 } from "../../utils/captcha";
-
+import { Toast } from "vant";
 export default {
   name: "mycompute",
   props: {
@@ -41,12 +41,12 @@ export default {
       type: String,
       default: "2",
     },
-  
+
     figure: {
       type: Number,
       default: 100,
     },
-    
+
     arith: {
       type: Number,
       default: 0,
@@ -88,7 +88,6 @@ export default {
       this.$parent.$emit("ready", this);
     },
 
-   
     setCode() {
       if (this.isEnd == false) {
         this.containerBackgroundColor =
@@ -126,8 +125,8 @@ export default {
 
           if (this.arith == 0) {
             var tmparith = Math.floor(Math.random() * 3);
-          }else {
-            var tmparith = this.arith
+          } else {
+            var tmparith = this.arith;
           }
 
           switch (tmparith) {
@@ -154,9 +153,9 @@ export default {
         }
       }
     },
-   codeSubmitBtn () {
+    codeSubmitBtn() {
       this.checkCode();
-   },
+    },
     iptchange() {
       // this.checkCode();
     },
@@ -180,9 +179,11 @@ export default {
         this.isEnd = true;
         this.$emit("success");
         console.log("成功");
+        Toast.success("验证成功");
       } else {
         this.$emit("error");
         console.log("失败");
+        Toast.fail("验证失败,请重试");
         this.setCode();
       }
     },
@@ -221,19 +222,22 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.computeds {
+  margin-top: 1rem;
+}
 .submit {
-    margin-top: 0.3rem;
-    // margin-right: auto;
-    .codeBtn {
-      width: 3rem;
-      height: 0.88rem;
-      background-color: #198ff9;
-      color: #feffff;
-      border: none;
-      border-radius: 0.1rem;
-      font-size: 0.3rem;
-    }
+  margin-top: 0.3rem;
+  // margin-right: auto;
+  .codeBtn {
+    width: 3rem;
+    height: 0.88rem;
+    background-color: #198ff9;
+    color: #feffff;
+    border: none;
+    border-radius: 0.1rem;
+    font-size: 0.3rem;
   }
+}
 .countTitle {
   font-size: 0.2rem;
   display: flex;
@@ -248,13 +252,13 @@ export default {
   display: flex;
   justify-content: left;
   align-items: center;
-   flex-wrap: wrap;
+  flex-wrap: wrap;
 
   .verify-code-area {
     // margin-right: 5px;
-    width:4.54rem;
+    width: 4.54rem;
     .verify-input-area {
-        width: 100%;
+      width: 100%;
       .varify-input-code {
         display: block;
         width: 100%;
@@ -266,10 +270,8 @@ export default {
         font-size: 0.3rem;
         height: 0.7rem;
         padding: 0 10px;
-       
       }
     }
-
   }
   .verify-code {
     // flex: 50%;

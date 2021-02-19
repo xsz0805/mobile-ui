@@ -34,10 +34,10 @@
       <button class="uploadSub" @click="uploadbtn">提交</button>    
     </div>
     <van-popup v-model="show">
-      <img  v-if="flag" src="../../assets//upload/popup_successful.png" alt="">
+      <img v-if="flag" src="../../assets//upload/popup_successful.png" alt="">
       <img v-else src="../../assets//upload/popup_error.png" alt="">
       <p>验证通过</p>
-      </van-popup>
+    </van-popup>
   </div>
 </template>
            
@@ -45,16 +45,25 @@
 import { Toast } from "vant";
 export default {
   name: "myupload",
+  props: {
+    row: {
+      type:[Boolean,String],
+      default: true,
+    },
+    uploadIpt: {
+       type:[Boolean,String],
+      default: true,
+    },
+  },
   data() {
     return {
-      flag:true,
-      show:false,
+      flag: true,
+      show: false,
       info: {
         name: "1",
         number: "2",
       },
-      uploadIpt: true,
-      row: true,
+
       srcOthers1: null,
       srcOthers2: null,
       result: [],
@@ -118,31 +127,31 @@ export default {
 };
 </script>
 <style scoped lang='less'>
-.van-popup ,.van-popup--center {
-    width: 4rem;
-    height: 3rem;
-    border-radius: 0.1rem;
-   
+.van-popup,
+.van-popup--center {
+  width: 4rem;
+  height: 3rem;
+  border-radius: 0.1rem;
 
-    img {
-      position: absolute;
-      top: 0.6rem;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 1rem;
-      height: 1rem;
-      border-radius: 50%;
-      margin-bottom: 0.4rem;
-    }         
-    
-    p {
-      position: absolute;
-      top: 2rem;
-       left: 50%;
-      transform: translateX(-50%);
-      color: #222222;
-      font-size: 0.3rem;
-    }
+  img {
+    position: absolute;
+    top: 0.6rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    margin-bottom: 0.4rem;
+  }
+
+  p {
+    position: absolute;
+    top: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #222222;
+    font-size: 0.3rem;
+  }
 }
 .myfileColumn {
   display: flex;

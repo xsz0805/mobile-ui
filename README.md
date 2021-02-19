@@ -140,7 +140,7 @@ hook    完成是否显示打钩(默认样式下 'precent' = 100)     type Boole
 # circle 环形进度条
 
 ```html
-<mycricle rate='60' color='red' ></mycricle>
+<mycricle rate='60' modifyColor='red' ></mycricle>
 ```
 ## Props
 

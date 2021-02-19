@@ -11,6 +11,10 @@ Vue.use(VueRouter)
 const routes = [
   {path:'/',redirect:'/index'},
   {path:'/index',component: () => import('@/views/index')},
+  {path:'/scan',component: () => import('@/views/scan')},
+  {path:'/tree',component: () => import('@/views/tree')},
+  {path:'/captcha',component: () => import('@/views/captcha')},
+
   // {path:'/scanPage',component: () => import('@/components/my-scan/scanPage')},
   // {path:'/tree',component: () => import('@/views/tree')}  
 ]

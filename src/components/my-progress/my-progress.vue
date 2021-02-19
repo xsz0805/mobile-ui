@@ -69,6 +69,7 @@ export default {
 
   .precent {
     margin-left: 0.4rem;
+    margin-right: 0.15rem;
     font-size: 0.26rem;
     width: 0.5rem;
     height: 0.5rem;

@@ -134,7 +134,7 @@ export default {
     },
     imgUrl: {
       type: String,
-      default: "https://picsum.photos/300/150/?random=",
+      default: "https://picsum.photos/300/150/?id=",
     },
     imgName: {
       type: Array,
