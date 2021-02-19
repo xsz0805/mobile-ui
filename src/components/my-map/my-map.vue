@@ -1,7 +1,7 @@
 <template>
       <div class="myMap">
     <van-nav-bar title="地图" left-arrow @click-left="onClickLeft" />
-    {{address}} 11231231
+
         <van-search id='address' ref="searchIpt" @blur='blur' @focus='focus' :show-action='action' shape='round' @cancel='searchAbolish' left-icon='search' v-model="valueAddress" placeholder="请输入搜索内容"
       @search="onSearch()" @input="oninput ()">
       <template slot='left'>
@@ -12,6 +12,9 @@
       </template>
     </van-search>   
          <div id="container"></div>
+
+    <div id="panel"></div>
+
     <button id="pantoBtn" class="mapbtn" @click='markerFocus'>
       <img src="../../assets/map/map_current.png" alt="">
     </button>
@@ -25,6 +28,25 @@
     <van-popup v-model="show" position="top" :style="{ height: '50%' }">  
       <van-area title="标题" :area-list="areaList" :columns-num="2" @confirm='addressComplate' @cancel='cancel' />
     </van-popup>
+    <van-popup v-model="show1" position="top" :style="{ height: '25%' }" class="navigationSearch">
+      <van-search id='address1' shape='round' @cancel='searchAbolish' v-model="startAddress" placeholder="请输入起始地" @input="oninput ()">
+        <template slot='left'>
+          <div class="chooseCity">
+            <span>起始地</span>
+            <!-- <img src='../../assets/map/arrow_down.png' alt=""> -->
+          </div>
+        </template>
+      </van-search>  
+      <van-search id='address2' shape='round' @cancel='searchAbolish' v-model="endAddress" placeholder="请输入目的地" @input="oninput ()">
+        <template slot='left'>
+          <div class="chooseCity">
+            <span>目的地</span>
+            <!-- <img src='../../assets/map/arrow_down.png' alt=""> -->
+          </div>
+        </template>
+      </van-search>    
+      <button class="sbtn" @click="sbtn">搜索</button>
+    </van-popup>
   </div>
 </template>
            
@@ -33,6 +55,12 @@ import { Toast } from "vant";
 export default {
   data() {
     return {
+      startAddress: "",
+      endAddress: "",
+      hMax: false,
+      hZero: false,
+      show1: false,
+      flag: true,
       action: false,
       areaList: {
         province_list: {
@@ -459,7 +487,10 @@ export default {
       driving: "",
       infoWindow: "",
       lnglat: "",
-      address:'',
+      address: "",
+      geocoder: "",
+      placeSearch: "",
+      auto: "",
     };
   },
   // computed:{
@@ -468,6 +499,32 @@ export default {
   //   }
   // },
   methods: {
+    inputTips() {
+      var auto = new AMap.Autocomplete({
+        input: "address",
+      });
+    },
+    sbtn() {
+      console.log(666);
+      this.show1 = false;
+      this.navigation(this.startAddress, this.endAddress);
+    },
+    infoDetail() {
+      AMap.service(["AMap.PlaceSearch"], () => {
+        //构造地点查询类
+        var placeSearch = new AMap.PlaceSearch({
+          pageSize: 3, // 单页显示结果条数
+          pageIndex: 1, // 页码
+          // city: "010", // 兴趣点城市
+          // citylimit: true, //是否强制限制在设置的城市内搜索
+          map: this.map, // 展现结果的地图实例
+          panel: "panel", // 结果列表将在此容器中进行展示。
+          autoFitView: true, // 是否自动调整地图视野使绘制的 Marker点都处于视口的可见范围
+        });
+        //关键字查询
+        placeSearch.search(this.address);
+      });
+    },
     createInfoWindow(title, content) {
       var info = document.createElement("div");
       info.className = "custom-info input-card content-window-card";
@@ -508,18 +565,24 @@ export default {
     },
 
     navigationBtn() {
-      this.navigation();
+      // this.navigation();
+      this.show1 = true;
+      setTimeout(() => {
+        var auto1 = new AMap.Autocomplete({
+          input: "address1",
+        });
+        var auto2 = new AMap.Autocomplete({
+          input: "address2",
+        });
+      }, 100);
     },
-    navigation() {
+    navigation(start, end) {
       this.driving = new AMap.Driving({
         map: this.map,
         // panel: "panel",
       });
       this.driving.search(
-        [
-          { keyword: "武汉市江汉路地铁站" },
-          { keyword: "武汉市江汉北路公交站" },
-        ],
+        [{ keyword: start }, { keyword: end }],
         function (status, result) {
           if (status === "complete") {
           } else {
@@ -528,7 +591,7 @@ export default {
       );
     },
     geoCode() {
-      var geocoder = new AMap.Geocoder({
+      this.geocoder = new AMap.Geocoder({
         //默认：“全国”
         city: this.city.name ? this.city.name : "武汉市",
       });
@@ -540,20 +603,41 @@ export default {
         // isCustom: true, //使用自定义窗体
         anchor: "bottom-center",
         // content: `<div style="height:0.56rem;background-color:white;line-height:0.56rem;padding:0 0.16rem;box-shadow:0 5px 10px 0;font-size:0.24rem;border-radius:0.1rem;">123123</div>`,
-        content:'121',
+        // content: "121",
         offset: new AMap.Pixel(-2, -36),
       });
       AMap.event.addListener(this.marker1, "click", (e) => {
         // console.log(e);
+        // this.infoDetail();
+        document.querySelector("#panel").style.height = "5rem";
+        this.hMax = true;
+        // this.flag = false;
+        // this.show1 = true;
 
+        this.asyncInfo();
         this.infoWindow.open(this.map, this.marker1.getPosition());
+        document.querySelector("#panel").onclick = (e) => {
+          // console.log(e);
+          console.log(e);
+          if (
+            e.pageX <= 345 &&
+            e.pageX >= 335 &&
+            e.pageY >= 535 &&
+            e.pageY <= 545
+          ) {
+            document.querySelector("#panel").style.height = 0;
+
+            this.placeSearch.clear();
+            // this.flag = true;
+          }
+        };
       });
 
       var address =
         // (this.city.name ? this.city.name : "武汉市") +
         document.getElementById("address").value;
       console.log(address);
-      geocoder.getLocation(address, function (status, result) {
+      this.geocoder.getLocation(address, function (status, result) {
         if (status === "complete" && result.geocodes.length) {
           var lnglat = result.geocodes[0].location;
           // console.log(lnglat);
@@ -569,21 +653,62 @@ export default {
           Toast.fail("请重新设置城市");
         }
       });
+      console.log(111);
 
-      geocoder.getAddress(this.lnglat, (status, result) => {
-        if (status === "complete" && result.regeocode) {
-          console.log(result.regeocode.formattedAddress);
-          this.address = result.regeocode.formattedAddress;
+      // this.geocoder.getAddress(this.lnglat, (status, result) => {
+      //   if (status === "complete" && result.regeocode) {
+      //     console.log(result.regeocode.formattedAddress);
+      //     this.address = result.regeocode.formattedAddress;
+      //     // document.getElementById("address").value = address;
+      //     this.infoWindow.setContent(result.regeocode.formattedAddress);
+      //   } else {
+      //     // log.error("根据经纬度查询地址失败");
+      //   }
+      // });
+    },
+    asyncContent() {
+      return new Promise((resolve) => {
+        this.geocoder.getAddress(this.lnglat, (status, result) => {
+          // console.log(result.regeocode.formattedAddress);
+          resolve((this.address = result.regeocode.formattedAddress));
+
           // document.getElementById("address").value = address;
-            this.infoWindow.setContent(result.regeocode.formattedAddress)
-        } else {
-          // log.error("根据经纬度查询地址失败");
-        }
+          //this.infoWindow.setContent(this.address)
+        });
+      });
+    },
+    async asyncInfo() {
+      const abc = await this.asyncContent();
+      // console.log(abc);
+      // console.log(this.address);
+      // this.infoWindow.setSize(new AMap.Size(55,30))
+      this.infoWindow.setContent(
+        `<div style='font-size:0.36rem'>${this.address}</div>`
+      );
+      AMap.service(["AMap.PlaceSearch"], () => {
+        //构造地点查询类
+        this.placeSearch = new AMap.PlaceSearch({
+          pageSize: 5, // 单页显示结果条数
+          // pageIndex: 2, // 页码
+          // city: "010", // 兴趣点城市
+          // citylimit: true, //是否强制限制在设置的城市内搜索
+          map: this.map, // 展现结果的地图实例
+          panel: "panel", // 结果列表将在此容器中进行展示。
+          // autoFitView: true, // 是否自动调整地图视野使绘制的 Marker点都处于视口的可见范围
+        });
+        //关键字查询
+        this.placeSearch.search(this.address);
       });
     },
     blur() {
       this.action = false;
+      this.flag = true;
       this.map.remove(this.marker1);
+      this.map.remove(this.infoWindow);
+      document.querySelector("#panel").style.height = 0;
+      if (this.placeSearch) {
+        this.placeSearch.clear();
+      }
       this.geoCode();
     },
     focus() {
@@ -694,18 +819,32 @@ export default {
       });
     },
   },
-  created() {
-    // 此处为调用精确定位之后，调取ip定位，可根据实际情况改写
-  },
+  created() {},
   mounted() {
     this.initMap();
     this.createIcon();
     this.createIcon1();
     this.getLocation();
+    this.inputTips();
   },
 };
 </script>
 <style scoped lang='less'>
+
+.sbtn {
+  margin: 0.3rem;
+  width: 8rem;
+  height: 0.72rem;
+  font-size: 0.5rem;
+  background-color: #d4d4db;
+  border: none;
+  border-radius: 15px;
+}
+.navigationSearch {
+  padding: 0.5rem 0;
+  text-align: center;
+}
+
 .chooseCity {
   font-size: 0.26rem;
   margin-right: 0.16rem;
@@ -714,6 +853,12 @@ export default {
     width: 0.16rem;
     height: 0.1rem;
   }
+}
+.heightZero {
+  height: 0;
+}
+.heightMax {
+  height: 6rem;
 }
 .myMap {
   position: relative;
@@ -743,13 +888,56 @@ export default {
     height: 0.6rem;
   }
 }
+/deep/.amap_lib_placeSearch_page {
+  display: none;
+}
 #container {
   width: 100%;
   height: 600px;
 }
+
 /deep/.amap-zoomcontrol {
   left: -260px;
 }
+/deep/.poi-img {
+  display: none;
+}
+#panel {
+  box-sizing: border-box;
+  transition: all 0.5s;
+  border: none;
+  border-radius: 10px;
+  background-color: #fff;
+  overflow-y: auto;
+  position: absolute;
+  bottom: 0;
+  height: 0;
+  width: 101%;
+  // max-height: 5rem;
+  z-index: 999;
+  // padding: 0.5rem 0;
+  // pointer-events: none;
+  /deep/.amap_lib_placeSearch {
+    border: none;
+  }
+  &::before {
+    content: "×";
+    // pointer-events: auto;
+    font-size: 0.5rem;
+    text-align: center;
+    line-height: 0.5rem;
+    position: absolute;
+    top: 0;
+    right: 5px;
+    width: 0.5rem;
+    height: 0.5rem;
+    background-color: white;
+    border-radius: 50%;
+  }
+}
+// .showinfo {
+//   display: none;
+// }
 // .van-search__content,
 // .van-search__,
 // .content--square {

@@ -23,7 +23,7 @@ import mycode from '@/components/my-captcha/my-code'
 import mymap from '@/components/my-map/my-map'
 import dingwei from '@/components/my-map/dingwei'
 // import yourMap from '@/components/my-map/Map.vue'
-// import 'lib-flexible/flexible'
+
 import "amfe-flexible";
 import Vant from 'vant';
 import 'vant/lib/index.css';

@@ -251,4 +251,7 @@ export default {
   height: 100%;
   vertical-align: middle;
 }
+/deep/.amap-sug-result {
+  z-index: 9999;
+}
 </style>
