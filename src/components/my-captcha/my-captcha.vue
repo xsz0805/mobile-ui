@@ -216,20 +216,37 @@ export default {
     },
   },
   watch: {
+    show() {
+      if (!this.visible) {
+        console.log("选字");
+        setTimeout(() => {
+          this.init1();
+        }, 0);
+      }
+    },
+    visible() {
+      // if (this.visible)
+      if (this.show && this.visible) {
+        setTimeout(() => {
+          this.init();
+        }, 0);
+      }
+
+     
+    },
     // type变化则全面刷新
     type: {
       immediate: true,
       handler() {
-        this.init1();
+        // this.init1();
       },
     },
   },
-  beforeCreate() {},
-  created() {},
-  beforeMount() {},
+
   mounted() {
-    if (this.visible) {
-      this.init();
+    if (!this.visible && this.show) {
+      console.log("选字");
+      // this.init1();
     }
     // 禁止拖拽
     this.$el.onselectstart = function () {
@@ -637,9 +654,9 @@ export default {
     canvasInit() {
       const canvas = this.createCanvas(this.cv.w, this.cv.h); // 画布
       const block = canvas.cloneNode(true); // 滑块
-
       block.className = "block";
       const el = (this.el = document.getElementById("captcha"));
+      console.log(document.getElementById("captcha"));
       el.style.position = "relative";
       el.style.width = this.cv.w + "px";
       Object.assign(el.style, {

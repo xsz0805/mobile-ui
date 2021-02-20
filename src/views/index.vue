@@ -4,8 +4,18 @@
 
     <div>
       <van-nav-bar title="移动端组件示例" />
-      <van-tabs animated swipeable @change='tabschange'>
-        <van-tab title="button and badge">
+      <van-tabs animated swipeable @change='tabschange' >
+        <van-tab title="搜索">
+          <!-- 搜索框 -->
+          <!-- 默认样式 -->
+          <!--v-model 双向数据绑定    input  输入事件 val 回调参数 当前输入框值  onsearch 搜索点击事件   searchVal 回调参数 当前输入框的值   Attr : history  搜索历史  type []  -->
+          <mysearch v-model="value" @input='myinput' @onsearch='mysearch' :history='history'> </mysearch>
+              <br><br><br>
+          <!-- 热搜样式     Attr  hotStyle  type  boolean  default  false-->
+          <mysearch hotStyle='true' :history='history'> </mysearch>
+          <!-- 搜索框 -->
+        </van-tab>
+        <van-tab title="徽标">
           <mybadge count="666">
             <my-button>按钮</my-button>
           </mybadge>
@@ -40,26 +50,16 @@
             <template slot="contentImg"><img src="../assets/badge_icon.png" alt="" /></template>
           </mybadge>
         </van-tab>
-        <van-tab title="search">
-          <!-- 搜索框 -->
-          <!-- 默认样式 -->
-          <!--v-model 双向数据绑定    input  输入事件 val 回调参数 当前输入框值  onsearch 搜索点击事件   searchVal 回调参数 当前输入框的值   Attr : history  搜索历史  type []  -->
-          <mysearch v-model="value" @input='myinput' @onsearch='mysearch' :history='history'> </mysearch>
-
-          <!-- 热搜样式     Attr  hotStyle  type  boolean  default  false-->
-          <mysearch hotStyle='true' :history='history'> </mysearch>
-          <!-- 搜索框 -->
-        </van-tab>
-        <van-tab title="step">
+        <van-tab title="步骤条">
           <!-- 步骤条 -->
           <mystep @stepClick='stepClick' :stepList='stepList' :active='active'></mystep>
           <my-button @click='next'>下一步</my-button>
           <!-- 步骤条 -->
         </van-tab>
-        <van-tab title="tree">
+        <van-tab title="树形控件">
           <button @click="treeClick" class="treebtn">点击进入树形展示页面</button>
         </van-tab>
-        <van-tab title="progress">
+        <van-tab title="进度条">
           <!-- 进度条 -->
           <myprogress hook precent='70'></myprogress>
           <br>
@@ -71,7 +71,7 @@
           <br>
           <!-- 进度条 -->
         </van-tab>
-        <van-tab title="circle">
+        <van-tab title="环形进度">
           <!-- 环形条 -->
           <mycircle rate='80' modifyColor='skyblue'></mycircle>
           <mycircle warn></mycircle>
@@ -79,8 +79,7 @@
           <mycircle error></mycircle>
           <!-- 环形条 -->
         </van-tab>
-
-        <van-tab title="upload">
+        <van-tab title="上传身份证">
           <!-- 上传 -->
           <h3>有输入框</h3>
           <myupload @upload='upload' v-model='info'></myupload>
@@ -88,9 +87,10 @@
           <myupload @upload='upload' v-model='info' :row='false' :uploadIpt='false'></myupload>
           <!-- 上传 -->
         </van-tab>
-        <van-tab title="map">
+        <van-tab title="地图">
           <!-- 地图 -->
-          <mymap></mymap>
+          <br>
+          <button @click="mapclick">点击进入地图页面</button>
           <!-- 地图 -->
         </van-tab>
         <van-tab title="验证码">
@@ -104,39 +104,25 @@
           <h5>图片字母数字验证码</h5>
           <!-- 图片字母数字 验证码 -->
           <mycode v-model="codeValue" @codeSubmitSuccess='codeSubmit' @codeSubmitError='codeSubmitError'></mycode>
+
         </van-tab>
         <van-tab title="扫一扫">
           <button @click="saoClick" class="scanbtn">点击进入扫一扫演示页面</button>
         </van-tab>
-        <van-tab title="选自验证码">
+        <van-tab title="选字/拼图/滑动验证码">
           <button @click="captchaClick" class="scanbtn">点击进入验证码演示页面</button>
         </van-tab>
-        <van-tab title="loading">
+        <van-tab title="加载">
           <button @click="saoClick1" class="scanbtn">点击显示正在加载样式1</button>
           <button @click="saoClick2" class="scanbtn">点击显示正在加载样式2</button>
           <button @click="saoClick3" class="scanbtn">点击显示正在加载样式3</button>
 
         </van-tab>
       </van-tabs>
-
       <myloading type=0 :loading='load1'></myloading>
       <myloading type=1 :loading='load2'></myloading>
       <myloading type=2 :loading='load3'></myloading>
-
-      <!-- 拼图验证 -->
-      <mycaptcha :show='show1' @success='successCapt' @error='errorCapt' :visible='true'></mycaptcha>
-      <mycaptcha :show='show2' @success='successCapt' @error='errorCapt' :visible='false'></mycaptcha>
-      <button @click="captchabtn">验证码</button>
-      <!-- 拼图验证 -->
     </div>
-
-    <!-- 滑动验证码 -->
-    <!-- <myslide  @success='success' @error='error'></myslide> -->
-    <!-- 滑动验证码 -->
-    <!-- 选字验证 -->
-    <!-- <mypoints></mypoints> -->
-    <!-- 选字验证 -->
-
   </div>
 </template>   
            
@@ -147,7 +133,6 @@ export default {
       console.log(val);
     },
   },
-
   data() {
     return {
       show1: false,
@@ -174,8 +159,14 @@ export default {
     };
   },
   methods: {
+    mapclick() {
+      this.$router.push("/map");
+    },
+    captchabtn1() {
+      this.show1 = true;
+    },
     captchabtn() {
-      this.show1 = true
+      this.show2 = true;
     },
     captchaClick() {
       this.$router.push("/captcha");

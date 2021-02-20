@@ -14,6 +14,7 @@ const routes = [
   {path:'/scan',component: () => import('@/views/scan')},
   {path:'/tree',component: () => import('@/views/tree')},
   {path:'/captcha',component: () => import('@/views/captcha')},
+  {path:'/map',component: () => import('@/views/map')},
 
   // {path:'/scanPage',component: () => import('@/components/my-scan/scanPage')},
   // {path:'/tree',component: () => import('@/views/tree')}  

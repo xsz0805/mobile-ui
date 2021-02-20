@@ -4,6 +4,7 @@
 
         <van-search id='address' ref="searchIpt" @blur='blur' @focus='focus' :show-action='action' shape='round' @cancel='searchAbolish' left-icon='search' v-model="valueAddress" placeholder="请输入搜索内容"
       @search="onSearch()" @input="oninput ()">
+
       <template slot='left'>
         <div @click="citySelect(valueAddress)" class="chooseCity">
           {{city.name ? city.name : '武汉市'}}
@@ -11,6 +12,7 @@
         </div>
       </template>
     </van-search>   
+
          <div id="container"></div>
 
     <div id="panel"></div>
@@ -47,14 +49,17 @@
       </van-search>    
       <button class="sbtn" @click="sbtn">搜索</button>
     </van-popup>
+    <myloading type=1 :loading='load2'></myloading>
   </div>
 </template>
            
 <script>
 import { Toast } from "vant";
 export default {
+  name: "mymap",
   data() {
     return {
+      load2: false,
       startAddress: "",
       endAddress: "",
       hMax: false,
@@ -491,6 +496,7 @@ export default {
       geocoder: "",
       placeSearch: "",
       auto: "",
+      searchadd: "",
     };
   },
   // computed:{
@@ -500,8 +506,15 @@ export default {
   // },
   methods: {
     inputTips() {
+      // var that = this;
       var auto = new AMap.Autocomplete({
         input: "address",
+      });
+
+      AMap.event.addListener(auto, "select", (e) => {
+        console.log(e.poi.name);
+        // this.searchadd = e.poi.name;
+        this.valueAddress = e.poi.name;
       });
     },
     sbtn() {
@@ -522,50 +535,51 @@ export default {
           autoFitView: true, // 是否自动调整地图视野使绘制的 Marker点都处于视口的可见范围
         });
         //关键字查询
-        placeSearch.search(this.address);
+        placeSearch.search(this.valueAddress);
       });
     },
-    createInfoWindow(title, content) {
-      var info = document.createElement("div");
-      info.className = "custom-info input-card content-window-card";
+    // createInfoWindow(title, content) {
+    //   var info = document.createElement("div");
+    //   info.className = "custom-info input-card content-window-card";
 
-      //可以通过下面的方式修改自定义窗体的宽高
-      //info.style.width = "400px";
-      // 定义顶部标题
-      var top = document.createElement("div");
-      var titleD = document.createElement("div");
-      var closeX = document.createElement("img");
-      top.className = "info-top";
-      titleD.innerHTML = title;
-      closeX.src = "https://webapi.amap.com/images/close2.gif";
-      closeX.onclick = closeInfoWindow;
+    //   //可以通过下面的方式修改自定义窗体的宽高
+    //   //info.style.width = "400px";
+    //   // 定义顶部标题
+    //   var top = document.createElement("div");
+    //   var titleD = document.createElement("div");
+    //   var closeX = document.createElement("img");
+    //   top.className = "info-top";
+    //   titleD.innerHTML = title;
+    //   closeX.src = "https://webapi.amap.com/images/close2.gif";
+    //   closeX.onclick = closeInfoWindow;
 
-      top.appendChild(titleD);
-      top.appendChild(closeX);
-      info.appendChild(top);
+    //   top.appendChild(titleD);
+    //   top.appendChild(closeX);
+    //   info.appendChild(top);
 
-      // 定义中部内容
-      var middle = document.createElement("div");
-      middle.className = "info-middle";
-      middle.style.backgroundColor = "white";
-      middle.innerHTML = content;
-      info.appendChild(middle);
+    //   // 定义中部内容
+    //   var middle = document.createElement("div");
+    //   middle.className = "info-middle";
+    //   middle.style.backgroundColor = "white";
+    //   middle.innerHTML = content;
+    //   info.appendChild(middle);
 
-      // 定义底部内容
-      var bottom = document.createElement("div");
-      bottom.className = "info-bottom";
-      bottom.style.position = "relative";
-      bottom.style.top = "0px";
-      bottom.style.margin = "0 auto";
-      var sharp = document.createElement("img");
-      sharp.src = "https://webapi.amap.com/images/sharp.png";
-      bottom.appendChild(sharp);
-      info.appendChild(bottom);
-      return info;
-    },
+    //   // 定义底部内容
+    //   var bottom = document.createElement("div");
+    //   bottom.className = "info-bottom";
+    //   bottom.style.position = "relative";
+    //   bottom.style.top = "0px";
+    //   bottom.style.margin = "0 auto";
+    //   var sharp = document.createElement("img");
+    //   sharp.src = "https://webapi.amap.com/images/sharp.png";
+    //   bottom.appendChild(sharp);
+    //   info.appendChild(bottom);
+    //   return info;
+    // },
 
     navigationBtn() {
       // this.navigation();
+
       this.show1 = true;
       setTimeout(() => {
         var auto1 = new AMap.Autocomplete({
@@ -574,9 +588,28 @@ export default {
         var auto2 = new AMap.Autocomplete({
           input: "address2",
         });
+        AMap.event.addListener(auto1, "select", (e) => {
+          console.log(e.poi.name);
+          // this.searchadd = e.poi.name;
+          this.startAddress = e.poi.name;
+        });
+
+        AMap.event.addListener(auto2, "select", (e) => {
+          console.log(e.poi.name);
+          // this.searchadd = e.poi.name;
+          this.endAddress = e.poi.name;
+        });
       }, 100);
     },
     navigation(start, end) {
+      var that = this;
+      if (!start || !end) {
+        return Toast.fail("地址不能空");
+      }
+      this.load2 = true;
+      if (this.driving) {
+        this.driving.clear();
+      }
       this.driving = new AMap.Driving({
         map: this.map,
         // panel: "panel",
@@ -585,6 +618,7 @@ export default {
         [{ keyword: start }, { keyword: end }],
         function (status, result) {
           if (status === "complete") {
+            that.load2 = false;
           } else {
           }
         }
@@ -602,49 +636,36 @@ export default {
       this.infoWindow = new AMap.InfoWindow({
         // isCustom: true, //使用自定义窗体
         anchor: "bottom-center",
-        // content: `<div style="height:0.56rem;background-color:white;line-height:0.56rem;padding:0 0.16rem;box-shadow:0 5px 10px 0;font-size:0.24rem;border-radius:0.1rem;">123123</div>`,
-        // content: "121",
+
         offset: new AMap.Pixel(-2, -36),
       });
       AMap.event.addListener(this.marker1, "click", (e) => {
-        // console.log(e);
-        // this.infoDetail();
         document.querySelector("#panel").style.height = "5rem";
         this.hMax = true;
-        // this.flag = false;
-        // this.show1 = true;
 
         this.asyncInfo();
         this.infoWindow.open(this.map, this.marker1.getPosition());
         document.querySelector("#panel").onclick = (e) => {
-          // console.log(e);
           console.log(e);
           if (
-            e.pageX <= 345 &&
-            e.pageX >= 335 &&
-            e.pageY >= 535 &&
-            e.pageY <= 545
+            e.pageX <= 348 &&
+            e.pageX >= 338 &&
+            e.pageY >= 457 &&
+            e.pageY <= 467
           ) {
             document.querySelector("#panel").style.height = 0;
 
             this.placeSearch.clear();
-            // this.flag = true;
           }
         };
       });
 
-      var address =
-        // (this.city.name ? this.city.name : "武汉市") +
-        document.getElementById("address").value;
-      console.log(address);
-      this.geocoder.getLocation(address, function (status, result) {
+      this.geocoder.getLocation(this.valueAddress, function (status, result) {
         if (status === "complete" && result.geocodes.length) {
           var lnglat = result.geocodes[0].location;
-          // console.log(lnglat);
-          // console.log(marker);
-          //  that.map.remove(marker);
+
           that.lnglat = lnglat;
-          // console.log(that.lnglat);
+
           that.marker1.setPosition(lnglat);
           that.map.add(that.marker1);
           that.map.setFitView(that.marker1);
@@ -653,7 +674,7 @@ export default {
           Toast.fail("请重新设置城市");
         }
       });
-      console.log(111);
+      // console.log(111);
 
       // this.geocoder.getAddress(this.lnglat, (status, result) => {
       //   if (status === "complete" && result.regeocode) {
@@ -683,7 +704,7 @@ export default {
       // console.log(this.address);
       // this.infoWindow.setSize(new AMap.Size(55,30))
       this.infoWindow.setContent(
-        `<div style='font-size:0.36rem'>${this.address}</div>`
+        `<div style='font-size:0.36rem'>${this.valueAddress}</div>`
       );
       AMap.service(["AMap.PlaceSearch"], () => {
         //构造地点查询类
@@ -697,19 +718,24 @@ export default {
           // autoFitView: true, // 是否自动调整地图视野使绘制的 Marker点都处于视口的可见范围
         });
         //关键字查询
-        this.placeSearch.search(this.address);
+        this.placeSearch.search(this.valueAddress);
       });
     },
     blur() {
       this.action = false;
-      this.flag = true;
+      // this.flag = true;
       this.map.remove(this.marker1);
       this.map.remove(this.infoWindow);
       document.querySelector("#panel").style.height = 0;
       if (this.placeSearch) {
         this.placeSearch.clear();
       }
-      this.geoCode();
+      if (!this.valueAddress) return;
+      this.load2 = true;
+      setTimeout(() => {
+        this.load2 = false;
+        this.geoCode();
+      }, 1000);
     },
     focus() {
       this.action = true;
@@ -731,7 +757,9 @@ export default {
       console.log(666);
       this.show = true;
     },
-    onClickLeft() {},
+    onClickLeft() {
+      this.$router.back();
+    },
     createIcon() {
       this.startIcon = new AMap.Icon({
         // 图标尺寸
@@ -775,19 +803,21 @@ export default {
       });
     },
     getLocation() {
+      this.load2 = true;
       let _this = this;
       AMap.plugin("AMap.Geolocation", function () {
         var geolocation = new AMap.Geolocation({
           // 是否使用高精度定位，默认：true
           enableHighAccuracy: true,
           // 设置定位超时时间，默认：无穷大
-          timeout: 5000,
+          // timeout: 5000,
         });
         geolocation.getCurrentPosition();
         AMap.event.addListener(geolocation, "complete", onComplete);
         AMap.event.addListener(geolocation, "error", onError);
         // data是具体的定位信息
         function onComplete(data) {
+          _this.load2 = false;
           console.log("具体的定位信息", data);
           _this.position = data.position;
           _this.lat = _this.position.lat;
@@ -830,7 +860,13 @@ export default {
 };
 </script>
 <style scoped lang='less'>
-
+/deep/ [data-v-42386d2f] .amap-logo {
+  display: none;
+  opacity: 0;
+}
+// .amap-copyright {
+//     opacity:0;
+// }
 .sbtn {
   margin: 0.3rem;
   width: 8rem;
@@ -883,9 +919,12 @@ export default {
   #refurbish {
     bottom: 0.4rem;
   }
-  .amap-icon {
+  /deep/.amap-icon {
     width: 0.6rem;
     height: 0.6rem;
+    img {
+      width: 100%;
+    }
   }
 }
 /deep/.amap_lib_placeSearch_page {
@@ -893,11 +932,12 @@ export default {
 }
 #container {
   width: 100%;
-  height: 600px;
+  height: 13.9rem;
 }
 
 /deep/.amap-zoomcontrol {
   left: -260px;
+  z-index: 1;
 }
 /deep/.poi-img {
   display: none;
@@ -914,7 +954,7 @@ export default {
   height: 0;
   width: 101%;
   // max-height: 5rem;
-  z-index: 999;
+  z-index: 998;
   // padding: 0.5rem 0;
   // pointer-events: none;
   /deep/.amap_lib_placeSearch {
@@ -927,6 +967,7 @@ export default {
     text-align: center;
     line-height: 0.5rem;
     position: absolute;
+    z-index: 999;
     top: 0;
     right: 5px;
     width: 0.5rem;

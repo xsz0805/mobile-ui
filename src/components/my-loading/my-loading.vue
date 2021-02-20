@@ -1,6 +1,6 @@
 <template>
       <div v-if="loading" class="mymainload">
-    <van-overlay show>
+    <van-overlay show z-index='999'>
       <lottie :options="defaultOptions" :height="100" :width="100" v-on:animCreated="handleAnimation" class="myloading" />
     </van-overlay>     
   </div>
@@ -43,7 +43,7 @@ export default {
 </script>
 <style scoped  lang='less'>
 .van-overlay {
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .myloading {

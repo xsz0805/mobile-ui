@@ -1,7 +1,7 @@
 # sh_mobile_ui
 
 # 基于Vant-ui封装的简单组件
-##  版本更新至  0.2.7
+##  版本更新至  0.2.8
 ## 安装
 ```js
 集成 Vant@2.12.6  无需重复install vant 
@@ -358,3 +358,14 @@ v-model      当前输入框的值
 upload    点击点击上传回调函数      回调参数  (result,formData)    result:'图片信息'  formData:'输入框的值'
 ```
 
+# 地图  
+```html
+<mymap></mymap>
+```
+
+## 使用
+```html
+注册高德 获取 key 
+在你的 index.html 引入 
+<script src="https://webapi.amap.com/maps?v=1.4.15&key=获取的key&plugin=AMap.Geocoder&plugin=AMap.Driving&plugin=AMap.PlaceSearch&plugin=AMap.Autocomplete"></script>
+```
